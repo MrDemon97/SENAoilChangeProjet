@@ -1,8 +1,13 @@
 ## SENAoilChangeProjet
 Proyecto SENA, construccion de aplicacion web usando estandar MEAN
+
 Registro de Cambios de Aceite
+
 ##Descripción
-Esta aplicación web permite registrar y gestionar el mantenimiento de cambios de aceite de vehículos. Permite llevar un registro detallado de los cambios de aceite realizados, incluyendo información sobre el vehículo, el aceite, los filtros y el técnico encargado.
+
+Esta aplicación web permite registrar y gestionar el mantenimiento de cambios de aceite de vehículos. 
+Permite llevar un registro detallado de los cambios de aceite realizados, incluyendo información sobre el vehículo, 
+el aceite, los filtros y el técnico encargado.
 
 ##Funcionalidades Clave
 #1. Registrar Cambios de Aceite
