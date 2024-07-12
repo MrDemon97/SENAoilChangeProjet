@@ -35,3 +35,51 @@ POST http://localhost:5000/api/vehiculos/
   }
 }
 
+GET http://localhost:5000/api/vehiculos/XYZ789
+
+DELETE http://localhost:5000/api/vehiculos/XXXXXX
+
+PUT http://localhost:5000/api/vehiculos/ABC123
+
+{
+  "placa": "ABC123",
+  "propietario": {
+    "nombre": "Juan Pérez",
+    "numeroId": "12345678"
+  },
+  "modelo": {
+    "ano": 2021,
+    "marca": "Toyota",
+    "serie": "Corolla"
+  }
+}
+
+GET http://localhost:5000/api/mantenimientos?tecnicoNombre=Juan Perez
+Buscar por nombre del técnico:
+
+GET http://localhost:5000/api/mantenimientos?tecnicoNombre=Juan Perez
+Buscar por número de identificación del propietario del vehículo:
+
+GET http://localhost:5000/api/mantenimientos?numeroIdPropietario=123456789
+Buscar por fecha:
+
+
+GET http://localhost:5000/api/mantenimientos?fecha=2024-07-15
+Buscar por placa del vehículo:
+
+GET http://localhost:5000/api/mantenimientos?placaVehiculo=XYZ789
+
+POST http://localhost:5000/api/mantenimientos
+{
+    "vehiculo": "6691ab9ce90a00e2911a2764",
+    "fecha": "2024-07-15",
+    "kilometraje": 15000,
+    "cantidadAceite": 1,
+    "aceiteUtilizado": "6691aaa6e90a00e2911a2761",
+    "filtroAceite": "6691b17adccee0128e1d3a19",
+    "filtroAire": "6691b135dccee0128e1d3a0f",
+    "tecnico": {
+        "nombre": "Carlos Lopez",
+        "numeroId": "987654321"
+    }
+}

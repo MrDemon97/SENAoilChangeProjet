@@ -42,9 +42,14 @@ const mantenimientoSchema = new mongoose.Schema({
         required: true,
     },
     tecnico: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Tecnico",
-        required: true,
+        nombre: {
+            type: String,
+            required: true,
+        },
+        numeroId:{
+            type: String,
+            required: true,
+        },  
     },
 });
 
