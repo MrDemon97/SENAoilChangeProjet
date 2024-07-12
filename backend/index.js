@@ -17,7 +17,6 @@ app.use(cors({origin: 'http://localhost:4200'}));
 
 //Rutas del servidor
 
-app.use('/api/clientes', require('./routes/clienteRoutes'));
 app.use('/api/vehiculos', require('./routes/vehiculoRoutes'));
 app.use('/api/aceites', require('./routes/aceiteRoutes'));
 app.use('/api/filtros', require('./routes/filtroRoutes'));
