@@ -20,9 +20,8 @@ app.use(cors({origin: 'http://localhost:4200'}));
 app.use('/api/clientes', require('./routes/clienteRoutes'));
 app.use('/api/vehiculos', require('./routes/vehiculoRoutes'));
 app.use('/api/aceites', require('./routes/aceiteRoutes'));
-app.use('/api/filtrosAire', require('./routes/filtroAireRoutes'));
-app.use('/api/filtrosAceite', require('./routes/filtroAceiteRoutes'));
-app.use('/api/tecnicos', require('./routes/tecnicoRoutes'));
+app.use('/api/filtros', require('./routes/filtroRoutes'));
+app.use('/api/mantenimientos', require('./routes/mantenimientoRoutes'));
 
 // Inicamos el servidor
 
