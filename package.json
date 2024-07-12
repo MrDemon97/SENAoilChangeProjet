@@ -1,0 +1,21 @@
+{
+  "name": "senaoilchangeprojet",
+  "version": "1.0.0",
+  "description": "Esta aplicación web permite registrar y gestionar el mantenimiento de cambios de aceite de vehículos. Permite llevar un registro detallado de los cambios de aceite realizados, incluyendo información sobre el vehículo, el aceite, los filtros y el técnico encargado.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
