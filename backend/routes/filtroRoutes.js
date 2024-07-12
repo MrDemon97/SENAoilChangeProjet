@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 const filtroCtrl = require('../controllers/filtroController');
 
-router.post('/', filtroCtrl.createFiltro);
-router.get('/', filtroCtrl.getFiltros);
-router.get('/:id', filtroCtrl.getFiltroById);
-router.put('/:id', filtroCtrl.updateFiltro);
-router.delete('/:id', filtroCtrl.deleteFiltro);
+// Obtener todos los filtros
+router.get("/", filtroCtrl.getFiltros);
+
+// Crear un nuevo filtro
+router.post("/", filtroCtrl.createFiltro);
+
+// Obtener un filtro por su referencia
+router.get("/:referencia", filtroCtrl.getFiltroByReferencia);
+
+// Actualizar un filtro por su referencia
+router.put("/:referencia", filtroCtrl.updateFiltro);
+
+// Eliminar un filtro por su referencia
+router.delete("/:referencia", filtroCtrl.deleteFiltro);
 
 module.exports = router;

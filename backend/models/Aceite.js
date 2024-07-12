@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { type } = require('os');
+const {Schema} = mongoose;
 
 const aceiteSchema = new mongoose.Schema({
     referencia:{ 

@@ -1,0 +1,37 @@
+PRUEBAS CON POSTMAN
+
+GET http://localhost:5000/api/aceites/Mobil 10w30 Super 2000
+
+PUT http://localhost:5000/api/aceites/Mobil 10w30 Super 2000
+ 
+{
+    "referencia": "Mobil 10w30 Super 2000",
+    "presentacion": "Cuarto Sellado",
+    "tipo": "Semi"
+}
+
+POST http://localhost:5000/api/aceites/
+{
+    "referencia": "Mobil 10w30 Super 2000",
+    "presentacion": "Galon 4L",
+    "tipo": "Semi"
+}
+
+DELETE http://localhost:5000/api/aceites/Mobil 10w30 Super 2000
+
+********************* vehiculos *************************
+
+POST http://localhost:5000/api/vehiculos/
+{
+  "placa": "ABC123",
+  "propietario": {
+    "nombre": "Juan Pérez",
+    "numeroId": "12345678"
+  },
+  "modelo": {
+    "ano": 2020,
+    "marca": "Toyota",
+    "serie": "Corolla"
+  }
+}
+

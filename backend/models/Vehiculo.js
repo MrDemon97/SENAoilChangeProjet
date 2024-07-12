@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {Schema} = mongoose;
 
 const vehiculoSchema = new mongoose.Schema({
     placa:{

@@ -1,11 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const aceiteCtrl = require('../controllers/aceiteController');
+const aceiteCtrl = require("../controllers/aceiteController");
 
-router.post('/', aceiteCtrl.createAceite);
-router.get('/', aceiteCtrl.getAceites);
-router.get('/:id', aceiteCtrl.getAceiteById);
-router.put('/:id', aceiteCtrl.updateAceite);
-router.delete('/:id', aceiteCtrl.deleteAceite);
+// Obtener todos los aceites
+router.get("/", aceiteCtrl.getAceites);
+
+// Crear un nuevo aceite
+router.post("/", aceiteCtrl.createAceite);
+
+// Obtener un aceite por su referencia
+router.get("/:referencia", aceiteCtrl.getAceiteByReferencia);
+
+// Actualizar un aceite por su referencia
+router.put("/:referencia", aceiteCtrl.updateAceite);
+
+// Eliminar un aceite por su referencia
+router.delete("/:referencia", aceiteCtrl.deleteAceite);
 
 module.exports = router;
