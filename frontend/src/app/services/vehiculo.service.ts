@@ -21,7 +21,7 @@ export class VehiculoService {
   }
 
   // Metodo para optener un vehiculo por su placa
-  getVehiculo(placa: string): Observable<any> {
+  getVehiculoByPlaca(placa: string): Observable<any> {
     return this.http.get(this.url + '/' + placa);
   }
 
