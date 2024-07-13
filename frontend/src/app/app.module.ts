@@ -13,10 +13,10 @@ import { MantenimientoComponent } from './components/mantenimiento/mantenimiento
 
 //Servicios
 
-import { AceiteService } from '../services/aceite.service';
-import { MantenimientoService } from '../services/mantenimiento.service';
-import { VehiculoService } from '../services/vehiculo.service';
-import { FiltroService } from '../services/filtro.service';
+import { AceiteService } from './services/aceite.service';
+import { MantenimientoService } from './services/mantenimiento.service';
+import { VehiculoService } from './services/vehiculo.service';
+import { FiltroService } from './services/filtro.service';
 
 
 @NgModule({
