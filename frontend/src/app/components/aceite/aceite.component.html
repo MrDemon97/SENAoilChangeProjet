@@ -1,1 +1,37 @@
-<p>aceite works!</p>
+<!-- aceite.component.html -->
+<div class="aceite-container">
+    <h2>Gestión de Aceites</h2>
+  
+    <!-- Formulario para agregar un nuevo aceite -->
+    <div class="new-aceite-form">
+      <h3>Agregar Nuevo Aceite</h3>
+      <form (ngSubmit)="createAceite()">
+        <input type="text" [(ngModel)]="nuevoAceite.referencia" name="referencia" placeholder="Referencia" required>
+        <input type="text" [(ngModel)]="nuevoAceite.marca" name="marca" placeholder="Marca" required>
+        <input type="text" [(ngModel)]="nuevoAceite.presentacion" name="presentacion" placeholder="Presentación" required>
+        <input type="checkbox" [(ngModel)]="nuevoAceite.disponibilidad" name="disponibilidad"> Disponible
+        <button type="submit">Agregar Aceite</button>
+      </form>
+    </div>
+  
+    <!-- Lista de aceites -->
+    <div class="aceites-list">
+      <h3>Lista de Aceites</h3>
+      <div *ngFor="let aceite of aceites" class="aceite-item">
+        <p>Referencia: {{ aceite.referencia }}</p>
+        <p>Marca: {{ aceite.marca }}</p>
+        <p>Presentación: {{ aceite.presentacion }}</p>
+        <p>Disponibilidad: {{ aceite.disponibilidad ? 'Disponible' : 'No Disponible' }}</p>
+        <button (click)="updateAceite(aceite.referencia)">Actualizar</button>
+        <button (click)="deleteAceite(aceite.referencia)">Eliminar</button>
+      </div>
+    </div>
+  
+    <!-- Formulario para buscar un aceite por referencia -->
+    <div class="search-aceite-form">
+      <h3>Buscar Aceite por Referencia</h3>
+      <input type="text" #searchReferencia placeholder="Referencia">
+      <button (click)="getAceiteByReferencia(searchReferencia.value)">Buscar</button>
+    </div>
+  </div>
+  

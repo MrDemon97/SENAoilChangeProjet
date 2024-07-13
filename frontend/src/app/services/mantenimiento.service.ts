@@ -1,23 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Mantenimiento } from '../models/mantenimiento.model'; // Asegúrate de que la ruta sea correcta
+import { Mantenimiento } from '../models/mantenimiento.model';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class MantenimientoService {
-    private apiUrl = 'http://localhost:5000/api/mantenimientos'; // URL de tu API
+  private baseUrl = 'http://localhost:5000/api/mantenimientos';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    // Método para obtener todos los mantenimientos, con filtros opcionales
-    getMantenimientos(params?: any): Observable<Mantenimiento[]> {
-        return this.http.get<Mantenimiento[]>(this.apiUrl, { params });
+  getMantenimientos(filtros?: any): Observable<Mantenimiento[]> {
+    let params = new HttpParams();
+    if (filtros) {
+      Object.keys(filtros).forEach(key => {
+        if (filtros[key]) {
+          params = params.append(key, filtros[key]);
+        }
+      });
     }
+    return this.http.get<Mantenimiento[]>(this.baseUrl, { params });
+  }
 
-    // Método para crear un nuevo mantenimiento
-    createMantenimiento(mantenimiento: Mantenimiento): Observable<Mantenimiento> {
-        return this.http.post<Mantenimiento>(this.apiUrl, mantenimiento);
-    }
+  createMantenimiento(mantenimiento: Mantenimiento): Observable<Mantenimiento> {
+    return this.http.post<Mantenimiento>(this.baseUrl, mantenimiento);
+  }
 }
