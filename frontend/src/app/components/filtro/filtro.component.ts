@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FiltroService } from '../../services/filtro.service';
 import { Filtro } from '../../models/filtro.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-filtro', // Selector que se usa para insertar este componente en una plantilla HTML

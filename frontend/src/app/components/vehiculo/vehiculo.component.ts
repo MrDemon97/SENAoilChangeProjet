@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { VehiculoService } from '../../services/vehiculo.service';
 import { Vehiculo } from '../../models/vehiculo.model';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-vehiculo',

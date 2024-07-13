@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MantenimientoService } from '../../services/mantenimiento.service';
 import { Mantenimiento } from '../../models/mantenimiento.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
 
 @Component({
   selector: 'app-mantenimiento',

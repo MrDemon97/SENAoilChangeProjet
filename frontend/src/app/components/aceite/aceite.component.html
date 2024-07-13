@@ -9,7 +9,6 @@
         <input type="text" [(ngModel)]="nuevoAceite.referencia" name="referencia" placeholder="Referencia" required>
         <input type="text" [(ngModel)]="nuevoAceite.marca" name="marca" placeholder="Marca" required>
         <input type="text" [(ngModel)]="nuevoAceite.presentacion" name="presentacion" placeholder="Presentación" required>
-        <input type="checkbox" [(ngModel)]="nuevoAceite.disponibilidad" name="disponibilidad"> Disponible
         <button type="submit">Agregar Aceite</button>
       </form>
     </div>
@@ -21,7 +20,6 @@
         <p>Referencia: {{ aceite.referencia }}</p>
         <p>Marca: {{ aceite.marca }}</p>
         <p>Presentación: {{ aceite.presentacion }}</p>
-        <p>Disponibilidad: {{ aceite.disponibilidad ? 'Disponible' : 'No Disponible' }}</p>
         <button (click)="updateAceite(aceite.referencia)">Actualizar</button>
         <button (click)="deleteAceite(aceite.referencia)">Eliminar</button>
       </div>

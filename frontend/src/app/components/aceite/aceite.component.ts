@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AceiteService } from '../../services/aceite.service';
 import { Aceite } from '../../models/aceite.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-aceite', // Selector que se usa para insertar este componente en una plantilla HTML
