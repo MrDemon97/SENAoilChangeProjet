@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Aceite } from '../models/aceite.model'; // Asegúrate de que la ruta sea correcta
+import { Aceite } from '../models/aceite.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AceiteService {
-    private apiUrl = 'http://localhost:5000/api/aceites'; // URL de tu API
+    private apiUrl = 'http://localhost:5000/api/aceites'; 
 
     constructor(private http: HttpClient) {}
 

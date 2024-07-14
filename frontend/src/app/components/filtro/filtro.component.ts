@@ -3,13 +3,14 @@ import { FiltroService } from '../../services/filtro.service';
 import { Filtro } from '../../models/filtro.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
 @Component({
   selector: 'app-filtro', // Selector que se usa para insertar este componente en una plantilla HTML
   standalone: true, // Indica que este componente es independiente y no necesita ser declarado en un módulo
-  imports: [CommonModule, FormsModule], // Aquí puedes importar otros módulos o componentes que este componente necesite
+  imports: [CommonModule, FormsModule, HttpClientModule], // Aquí puedes importar otros módulos o componentes que este componente necesite
   templateUrl: './filtro.component.html', // Ruta al archivo de plantilla HTML de este componente
   styleUrls: ['./filtro.component.css'] // Ruta al archivo de estilos CSS de este componente
 })

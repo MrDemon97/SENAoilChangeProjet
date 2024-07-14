@@ -3,11 +3,12 @@ import { VehiculoService } from '../../services/vehiculo.service';
 import { Vehiculo } from '../../models/vehiculo.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-vehiculo',
   standalone: true,
-  imports: [CommonModule, FormsModule,],
+  imports: [CommonModule, FormsModule,HttpClientModule],
   templateUrl: './vehiculo.component.html',
   styleUrls: ['./vehiculo.component.css']
 })

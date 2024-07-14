@@ -3,12 +3,13 @@ import { AceiteService } from '../../services/aceite.service';
 import { Aceite } from '../../models/aceite.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
   selector: 'app-aceite', // Selector que se usa para insertar este componente en una plantilla HTML
   standalone: true, // Indica que este componente es independiente y no necesita ser declarado en un módulo
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule, HttpClientModule], 
   templateUrl: './aceite.component.html', // Ruta al archivo de plantilla HTML de este componente
   styleUrls: ['./aceite.component.css'] // Ruta al archivo de estilos CSS de este componente
 })

@@ -3,11 +3,12 @@ import { MantenimientoService } from '../../services/mantenimiento.service';
 import { Mantenimiento, Aceite, Filtro } from '../../models/mantenimiento.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-mantenimiento',
   standalone: true, // Indica que este componente es independiente y no necesita ser declarado en un módulo
-  imports: [CommonModule, FormsModule], // Aquí puedes importar otros módulos o componentes que este componente necesite
+  imports: [CommonModule, FormsModule, HttpClientModule], // Aquí puedes importar otros módulos o componentes que este componente necesite
   templateUrl: './mantenimiento.component.html', // Ruta al archivo de plantilla HTML de este componente
   styleUrls: ['./mantenimiento.component.css'] // Ruta al archivo de estilos CSS de este componente
 })
