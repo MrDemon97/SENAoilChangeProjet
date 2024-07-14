@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { MantenimientoService } from '../../services/mantenimiento.service';
-import { Mantenimiento } from '../../models/mantenimiento.model';
+import { Mantenimiento, Aceite, Filtro } from '../../models/mantenimiento.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-
 
 @Component({
   selector: 'app-mantenimiento',
-  templateUrl: './mantenimiento.component.html',
-  styleUrls: ['./mantenimiento.component.css']
+  standalone: true, // Indica que este componente es independiente y no necesita ser declarado en un módulo
+  imports: [CommonModule, FormsModule], // Aquí puedes importar otros módulos o componentes que este componente necesite
+  templateUrl: './mantenimiento.component.html', // Ruta al archivo de plantilla HTML de este componente
+  styleUrls: ['./mantenimiento.component.css'] // Ruta al archivo de estilos CSS de este componente
 })
 export class MantenimientoComponent implements OnInit {
   mantenimientos: Mantenimiento[] = [];

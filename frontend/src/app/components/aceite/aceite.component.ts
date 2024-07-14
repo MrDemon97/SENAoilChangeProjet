@@ -3,16 +3,16 @@ import { AceiteService } from '../../services/aceite.service';
 import { Aceite } from '../../models/aceite.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+
 
 @Component({
   selector: 'app-aceite', // Selector que se usa para insertar este componente en una plantilla HTML
   standalone: true, // Indica que este componente es independiente y no necesita ser declarado en un módulo
-  imports: [], // Aquí puedes importar otros módulos o componentes que este componente necesite
+  imports: [CommonModule, FormsModule], 
   templateUrl: './aceite.component.html', // Ruta al archivo de plantilla HTML de este componente
   styleUrls: ['./aceite.component.css'] // Ruta al archivo de estilos CSS de este componente
 })
-export class AceiteComponent implements OnInit {
+export class AceiteComponent{
   aceites: Aceite[] = [];
   nuevoAceite: Aceite = new Aceite(); // Inicializa un nuevo aceite
 

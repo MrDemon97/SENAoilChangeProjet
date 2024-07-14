@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { VehiculoService } from '../../services/vehiculo.service';
 import { Vehiculo } from '../../models/vehiculo.model';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vehiculo',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule,],
   templateUrl: './vehiculo.component.html',
   styleUrls: ['./vehiculo.component.css']
 })
