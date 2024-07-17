@@ -46,7 +46,7 @@ aceiteCtrl.createAceite = async (req, res) => {
     const savedAceite = await newAceite.save();
     res.status(201).json( {message: "Creado con exito", savedAceite});
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: "Error Creando el aceite" });
   }
 };
 

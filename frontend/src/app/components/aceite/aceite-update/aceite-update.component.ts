@@ -17,7 +17,6 @@ export class AceiteUpdateComponent {
 
   constructor(private aceiteService: AceiteService) {}
 
-  //reusamos el codigo de aceite searchcomponent
   verificarYActualizarAceite(): void {
     if (this.aceite) {
       // Verificar si el aceite ya existe

@@ -1,6 +1,7 @@
 PRUEBAS CON POSTMAN
 
-GET http://localhost:5000/api/aceites/Mobil 10w30 Super 2000
+GET http://localhost:5000/api/aceites/
+GET 
 
 PUT http://localhost:5000/api/aceites/Mobil 10w30 Super 2000
  
