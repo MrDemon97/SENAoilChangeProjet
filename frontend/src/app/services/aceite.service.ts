@@ -12,27 +12,27 @@ export class AceiteService {
     constructor(private http: HttpClient) {}
 
     // Método para obtener todos los aceites
-    getAceites(): Observable<Aceite[]> {
-        return this.http.get<Aceite[]>(this.apiUrl);
+    getAceites(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl);
     }
+
+    //Obtener un aceite por sus parametros
+    getAceiteBuscado(referencia: string, marca: string, presentacion: string, tipo: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/buscar?referencia=${referencia}&marca=${marca}&presentacion=${presentacion}&tipo=${tipo}`);
+      }
 
     // Método para crear un nuevo aceite
     createAceite(aceite: Aceite): Observable<Aceite> {
         return this.http.post<Aceite>(this.apiUrl, aceite);
     }
 
-    // Método para obtener un aceite por su referencia
-    getAceiteByReferencia(referencia: string): Observable<Aceite> {
-        return this.http.get<Aceite>(`${this.apiUrl}/${referencia}`);
+    // Método para actualizar un aceite por su ID
+    updateAceite(id: string, aceite: any): Observable<any>{
+        return this.http.put(`${this.apiUrl}/${id}`, aceite);
     }
-
-    // Método para actualizar un aceite por su referencia
-    updateAceite(referencia: string, aceite: Aceite): Observable<Aceite> {
-        return this.http.put<Aceite>(`${this.apiUrl}/${referencia}`, aceite);
-    }
-
-    // Método para eliminar un aceite por su referencia
-    deleteAceite(referencia: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${referencia}`);
+    
+    //Eliminar un aceite por su ID
+    deleteAceite(id: string): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/${id}`);
     }
 }

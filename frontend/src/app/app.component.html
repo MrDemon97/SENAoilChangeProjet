@@ -1,26 +1,53 @@
-<!-- Aquí se puede colocar cualquier contenido que desees que aparezca en todas las páginas -->
-<header>
-  <!-- Encabezado común o barra de navegación -->
-</header>
+  <header>
+    <!-- Encabezado común o barra de navegación -->
+  </header>
+  
   <nav>
     <ul>
       <li><a routerLink="/">Inicio</a></li>
-      <li><a routerLink="/aceite">Gestion Aceites</a></li>
-      <li><a routerLink="/filtro">Gestion de Filtros</a></li>
-      <li><a routerLink="/vehiculo">Gestión de Vehículos</a></li>
-      <li><a routerLink="/mantenimiento">Historial de Mantenimiento</a></li>
+      <li>
+        <a href="#">Gestión Aceites</a>
+        <ul class="submenu">
+          <li><a routerLink="/aceite/listar">Listar</a></li>
+          <li><a routerLink="/aceite/crear">Crear</a></li>
+          <li><a routerLink="/aceite/actualizar">Actualizar</a></li>
+          <li><a routerLink="/aceite/borrar">Borrar</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Gestión de Filtros</a>
+        <ul class="submenu">
+          <li><a routerLink="/filtro/listar">Listar</a></li>
+          <li><a routerLink="/filtro/crear">Crear</a></li>
+          <li><a routerLink="/filtro/actualizar">Actualizar</a></li>
+          <li><a routerLink="/filtro/borrar">Borrar</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Gestión de Vehículos</a>
+        <ul class="submenu">
+          <li><a routerLink="/vehiculo/listar">Listar</a></li>
+          <li><a routerLink="/vehiculo/crear">Crear</a></li>
+          <li><a routerLink="/vehiculo/actualizar">Actualizar</a></li>
+          <li><a routerLink="/vehiculo/borrar">Borrar</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Historial de Mantenimiento</a>
+        <ul class="submenu">
+          <li><a routerLink="/mantenimiento/listar">Listar</a></li>
+          <li><a routerLink="/mantenimiento/crear">Crear</a></li>
+          <li><a routerLink="/mantenimiento/actualizar">Actualizar</a></li>
+          <li><a routerLink="/mantenimiento/borrar">Borrar</a></li>
+        </ul>
+      </li>
     </ul>
   </nav>
   
- <router-outlet></router-outlet>
- 
-<!-- Este div contendrá el componente cargado dinámicamente según la ruta -->
-<main>
-  <router-outlet></router-outlet>
-</main>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
 
-<!-- Aquí se puede colocar un pie de página o contenido común en todas las páginas -->
-<footer>
-  <!-- Pie de página común -->
-  <p>&copy; 2024 Tu Empresa. Todos los derechos reservados.</p>
-</footer>
+  <footer>
+    <p>&copy; 2024 Tu Empresa. Todos los derechos reservados.</p>
+  </footer>

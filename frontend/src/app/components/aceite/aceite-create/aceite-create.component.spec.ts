@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AceiteComponent } from './aceite.component';
+import { AceiteCreateComponent } from './aceite-create.component';
 
-describe('AceiteComponent', () => {
-  let component: AceiteComponent;
-  let fixture: ComponentFixture<AceiteComponent>;
+describe('AceiteCreateComponent', () => {
+  let component: AceiteCreateComponent;
+  let fixture: ComponentFixture<AceiteCreateComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AceiteComponent]
+      imports: [AceiteCreateComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AceiteComponent);
+    fixture = TestBed.createComponent(AceiteCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

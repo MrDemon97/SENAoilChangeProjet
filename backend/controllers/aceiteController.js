@@ -1,105 +1,99 @@
-// Importamos el modelo Aceite desde el archivo correspondiente
-const Aceite = require("../models/Aceite");
+const Aceite = require('../models/Aceite');
 
-// Creamos un objeto vacío para almacenar nuestros controladores
 const aceiteCtrl = {};
 
-// Obtener todos los registros de aceite
+//Obtener todos los aceites 
+
 aceiteCtrl.getAceites = async (req, res) => {
   try {
-    // Intentamos obtener todos los documentos de la colección Aceite
+    //Recuoerar todos los registros de aceites de la base de datos
     const aceites = await Aceite.find();
-    // Enviamos los documentos obtenidos en formato JSON como respuesta
     res.json(aceites);
   } catch (err) {
-    // Si ocurre un error, enviamos una respuesta con el código de estado 500 y un mensaje de error
+    //Manejar errores y enviar un mensaje de error
     res.status(500).json({ message: err.message });
   }
 };
 
-// Crear un nuevo registro de aceite
+//Obtener un aceite buscado
+
+aceiteCtrl.getAceiteBuscado = async (req, res) => {
+  const {referencia, marca, presentacion, tipo} = req.query;
+  try {
+    //Recuoerar todos los registros de aceites de la base de datos
+    const aceite = await Aceite.findOne({referencia, marca, presentacion, tipo});
+    if (!aceite){
+      return res.status(404).json({message: "No se encontro el aceite buscado"});
+    }
+    res.json({ id: aceite._id, ...aceite._doc}); // incluimos el id
+} catch (err) {
+  //Manejar errores y enviar un mensaje de error
+  res.status(500).json({ message: err.message });
+  }
+};
+
+// Crear un nuevo aceite 
 aceiteCtrl.createAceite = async (req, res) => {
-  // Extraemos los datos del cuerpo de la solicitud
-  const { marca, presentacion, tipo, referencia } = req.body;
-  // Creamos una nueva instancia del modelo Aceite con los datos proporcionados
-  const newAceite = new Aceite({ marca, presentacion, tipo, referencia });
+  const { referencia, marca, presentacion, tipo } = req.body;
+  const newAceite = new Aceite({ referencia, marca, presentacion, tipo });
   try {
-    // Intentamos guardar el nuevo documento en la base de datos
+    // Verificar si un aceite con los mismo valores ya existe
+    const existingAceite = await Aceite.findOne({ referencia, marca, presentacion, tipo});
+    if (existingAceite) {
+      return res.status(400).json({ message: "El aceite ya existe" });
+    }
+
     const savedAceite = await newAceite.save();
-    // Enviamos el documento guardado en formato JSON con el código de estado 201 (Creado)
-    res.status(201).json(savedAceite);
+    res.status(201).json( {message: "Creado con exito"}, savedAceite);
   } catch (err) {
-    // Si ocurre un error, enviamos una respuesta con el código de estado 400 y un mensaje de error
     res.status(400).json({ message: err.message });
   }
 };
 
-// Obtener un registro de aceite por referencia
-aceiteCtrl.getAceiteByReferencia = async (req, res) => {
-  // Extraemos la referencia de los parámetros de la solicitud
-  const referencia = req.params.referencia;
+// Actualizar un aceite existente basados en su _id
+aceiteCtrl.updateAceiteById = async (req, res) => {
+  const { id } = req.params;
+  const {referencia, marca, presentacion, tipo} = req.body;
   try {
-    // Intentamos obtener un documento de la colección Aceite por su referencia
-    const aceite = await Aceite.findOne({ referencia });
-    // Si no se encuentra el documento, enviamos una respuesta con el código de estado 404 y un mensaje de error
-    if (!aceite) {
-      return res.status(404).json({ message: "Aceite no encontrado" });
-    }
-    // Enviamos el documento encontrado en formato JSON
-    res.json(aceite);
-  } catch (err) {
-    // Si ocurre un error, enviamos una respuesta con el código de estado 500 y un mensaje de error
-    res.status(500).json({ message: err.message });
+    //Verificar si una ceite con los mismos valores ya existe
+    const existingAceite = await Aceite.FindOne ({
+      referencia,
+      marca,
+      presentacion,
+      tipo,
+      _id: { $ne:id}//Excluimos el aceite con el mismo id que estamos actaulizando
+    });
+    if (existingAceite && existingAceite._id.toString() !== _id){ 
+      return res.status(400).json({ message: "El aceite ya existe" });
   }
-};
+  //Actualizar el aceite con los nuevos valores
+  const updatedAceite = await Aceite.findByIdAndUpdate(
+    _id,
+    {referencia, marca, presentacion, tipo} ,
+    {new: true}
+  );
 
-// Actualizar un registro de aceite por referencia
-aceiteCtrl.updateAceite = async (req, res) => {
-  // Extraemos la referencia de los parámetros de la solicitud
-  const referencia = req.params.referencia;
-  // Extraemos los datos del cuerpo de la solicitud
-  const { marca, presentacion, tipo } = req.body;
-  try {
-    // Intentamos actualizar un documento de la colección Aceite por su referencia
-    const updatedAceite = await Aceite.findOneAndUpdate(
-      { referencia },
-      { marca, presentacion, tipo },
-      { new: true } // Esta opción devuelve el documento actualizado
-    );
-    // Si no se encuentra el documento, enviamos una respuesta con el código de estado 404 y un mensaje de error
-    if (!updatedAceite) {
-      return res
-        .status(404)
-        .json({ message: "Aceite no encontrado para actualizar" });
-    }
-    // Enviamos el documento actualizado en formato JSON
-    res.json(updatedAceite);
+  if (!updatedAceite){
+    return res.status(404).json({ message: "No se encontro el aceite para actualizar"});
+  }
+  res.json({ message: "Aceite actualizado con exito", updatedAceite});
   } catch (err) {
-    // Si ocurre un error, enviamos una respuesta con el código de estado 400 y un mensaje de error
     res.status(400).json({ message: err.message });
   }
 };
 
-// Eliminar un registro de aceite por referencia
-aceiteCtrl.deleteAceite = async (req, res) => {
-  // Extraemos la referencia de los parámetros de la solicitud
-  const referencia = req.params.referencia;
+// Eliminar un aceite
+aceiteCtrl.deleteAceite = async (req,res) =>{
+  const id = req.params.id; // Usar el ID para eliminar
   try {
-    // Intentamos eliminar un documento de la colección Aceite por su referencia
-    const deletedAceite = await Aceite.findOneAndDelete({ referencia });
-    // Si no se encuentra el documento, enviamos una respuesta con el código de estado 404 y un mensaje de error
+    const deletedAceite = await Aceite.findByIdAndDelete(id);
     if (!deletedAceite) {
-      return res
-        .status(404)
-        .json({ message: "Aceite no encontrado para eliminar" });
-    }
-    // Enviamos un mensaje de éxito en formato JSON
-    res.json({ message: "Aceite eliminado correctamente" });
+      return res.status(404).json({ message: "No se encontro el aceite para eliminar"});
+        }
+    res.json({ message: "Aceite eliminado con exito", deletedAceite}); 
   } catch (err) {
-    // Si ocurre un error, enviamos una respuesta con el código de estado 500 y un mensaje de error
-    res.status(500).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 };
 
-// Exportamos el objeto aceiteCtrl para que pueda ser utilizado en otras partes de la aplicación
 module.exports = aceiteCtrl;
