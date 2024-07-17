@@ -38,7 +38,7 @@ export class AceiteSearchComponent {
         (error) => {
           if (error instanceof HttpErrorResponse) {
             if (error.status === 404) {
-              alert('Filtro no encontrado.');
+              alert('Aceite no encontrado.');
             } else {
               alert('Error buscando el aceite.');
             }

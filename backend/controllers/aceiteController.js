@@ -51,32 +51,22 @@ aceiteCtrl.createAceite = async (req, res) => {
 };
 
 // Actualizar un aceite existente basados en su _id
-aceiteCtrl.updateAceiteById = async (req, res) => {
-  const { id } = req.params;
-  const {referencia, marca, presentacion, tipo} = req.body;
+aceiteCtrl.updateAceite = async (req, res) => {
   try {
-    //Verificar si una ceite con los mismos valores ya existe
-    const existingAceite = await Aceite.FindOne ({
-      referencia,
-      marca,
-      presentacion,
-      tipo,
-      _id: { $ne:id}//Excluimos el aceite con el mismo id que estamos actaulizando
-    });
-    if (existingAceite && existingAceite._id.toString() !== _id){ 
-      return res.status(400).json({ message: "El aceite ya existe" });
-  }
-  //Actualizar el aceite con los nuevos valores
-  const updatedAceite = await Aceite.findByIdAndUpdate(
-    _id,
-    {referencia, marca, presentacion, tipo} ,
-    {new: true}
-  );
+    const { _id } = req.params; // Verifica que esto sea lo correcto
+    const { referencia, marca, presentacion, tipo } = req.body;
 
-  if (!updatedAceite){
-    return res.status(404).json({ message: "No se encontro el aceite para actualizar"});
-  }
-  res.json({ message: "Aceite actualizado con exito", updatedAceite});
+    const updatedAceite = await Aceite.findByIdAndUpdate(
+      _id,
+      { referencia, marca, presentacion, tipo },
+      { new: true }
+    );
+
+    if (!updatedAceite) {
+      return res.status(404).json({ message: "No se encontró el aceite para actualizar" });
+    }
+
+    res.json({ message: "Aceite actualizado con éxito", updatedAceite });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

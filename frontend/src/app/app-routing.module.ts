@@ -13,7 +13,7 @@ import { AceiteDeleteComponent } from './components/aceite/aceite-delete/aceite-
 import { AceiteCreateComponent } from './components/aceite/aceite-create/aceite-create.component';
 import { AceiteListComponent } from './components/aceite/aceite-list/aceite-list.component';
 import { AceiteSearchComponent } from './components/aceite/aceite-search/aceite-search.component';
-//import { AceiteUpdateComponent } from './components/aceite/aceite-update/aceite-update.component';
+import { AceiteUpdateComponent } from './components/aceite/aceite-update/aceite-update.component';
 
 export const routes: Routes = [
   { path: '', component: BienvenidaComponent },

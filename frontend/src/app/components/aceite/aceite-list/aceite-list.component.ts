@@ -4,11 +4,12 @@ import { Aceite } from '../../../models/aceite.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { AceiteUpdateComponent } from "../aceite-update/aceite-update.component";
 
 @Component({
   selector: 'app-aceite-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, AceiteUpdateComponent],
   templateUrl: './aceite-list.component.html',
   styleUrls: ['./aceite-list.component.css']
 })
@@ -34,8 +35,15 @@ export class AceiteListComponent implements OnInit {
   }
 
   deleteAceite(id: string): void {
-    this.aceiteService.deleteAceite(id).subscribe(() => this.getAceites());
-    // Actualizar lista de aceites después de eliminar
+    this.aceiteService.deleteAceite(id).subscribe(
+      () => {
+        this.getAceites();
+      },
+      (error) => {
+        alert("ERROR AL ELIMINAR");
+        console.error('Error al eliminar aceite', error);
+      }
+    );
   }
 
   actualizarAceite(aceite: Aceite): void {
@@ -43,7 +51,7 @@ export class AceiteListComponent implements OnInit {
     this.mostrarFormularioActualizar = true;
   }
 
-  onSubmit(): void {
+  /* onSubmit(): void {
     if (this.aceiteSeleccionado) {
       this.aceiteService.updateAceite(this.aceiteSeleccionado._id, this.aceiteSeleccionado).subscribe(
         (updatedAceite) => {
@@ -57,5 +65,10 @@ export class AceiteListComponent implements OnInit {
         }
       );
     }
-  }
+  } */
+
+    onAceiteActualizado(): void {
+      this.mostrarFormularioActualizar = false;
+      this.getAceites(); // Refresca la lista de aceites
+    }
 }

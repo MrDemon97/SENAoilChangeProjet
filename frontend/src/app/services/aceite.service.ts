@@ -27,9 +27,9 @@ export class AceiteService {
     }
 
     // Método para actualizar un aceite por su ID
-    updateAceite(id: string, aceite: any): Observable<any>{
-        return this.http.put(`${this.apiUrl}/${id}`, aceite);
-    }
+    updateAceite(id: string, aceite: Aceite): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/${id}`, aceite);
+      }
     
     //Eliminar un aceite por su ID
     deleteAceite(id: string): Observable<any> {

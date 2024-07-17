@@ -6,7 +6,7 @@ const aceiteCtrl = require('../controllers/aceiteController');
 router.get('/', aceiteCtrl.getAceites);
 router.get('/buscar', aceiteCtrl.getAceiteBuscado);
 router.post('/', aceiteCtrl.createAceite);
-router.put('/:id', aceiteCtrl.updateAceiteById);
+router.put('/:id', aceiteCtrl.updateAceite);
 router.delete('/:id', aceiteCtrl.deleteAceite);
 
 
