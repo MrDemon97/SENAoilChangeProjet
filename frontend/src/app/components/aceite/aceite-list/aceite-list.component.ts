@@ -37,6 +37,7 @@ export class AceiteListComponent implements OnInit {
   deleteAceite(id: string): void {
     this.aceiteService.deleteAceite(id).subscribe(
       () => {
+        alert("Eliminado con exito!")
         this.getAceites();
       },
       (error) => {
