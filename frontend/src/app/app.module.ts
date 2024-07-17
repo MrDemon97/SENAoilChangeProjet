@@ -47,7 +47,7 @@ import { FiltroService } from './services/filtro.service';
     FiltroService,
     MantenimientoService
   ],
-  
+
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA
   ],

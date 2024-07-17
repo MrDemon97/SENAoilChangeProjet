@@ -1,61 +1,62 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AceiteService } from '../../../services/aceite.service';
 import { Aceite } from '../../../models/aceite.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-aceite-update',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './aceite-update.component.html',
-  styleUrl: './aceite-update.component.css'
+  styleUrls: ['./aceite-update.component.css']
 })
 export class AceiteUpdateComponent {
-  @Input() aceite: Aceite = {
-    _id: '',
-    referencia: '',
-    marca: '',
-    presentacion: 'Galon 4L',
-    tipo: 'Semi'
-  };
-  @Output() AceiteActualizado = new EventEmitter<void>();
-  @Output() CancelarEdicion = new EventEmitter<void>();
-  
-  aceiteTemporal: Aceite = {...this.aceite};
-  
+  @Input() aceite: Aceite | undefined;
+
   constructor(private aceiteService: AceiteService) {}
 
-  ngOnInit(): void {
-    this.aceiteTemporal= {...this.aceite};    
-  }
-
-  updateAceite(): void {
-    if (this.aceiteTemporal) {
-      this.aceiteService.updateAceite(this.aceite._id, this.aceiteTemporal)
-        .subscribe(response => {
-          if (response && response.updatedAceite) {
-            this.aceite = response.updatedAceite;
-            alert('Aceite actualizado exitosamente.');
-            this.AceiteActualizado.emit();
-          } else {
-            alert('No se encontró el aceite para actualizar.');
+  //reusamos el codigo de aceite searchcomponent
+  verificarYActualizarAceite(): void {
+    if (this.aceite) {
+      // Verificar si el aceite ya existe
+      this.aceiteService.getAceiteBuscado(this.aceite.referencia, this.aceite.marca, this.aceite.presentacion, this.aceite.tipo)
+        .subscribe(
+          (aceiteEncontrado) => {
+            if (aceiteEncontrado && aceiteEncontrado._id !== this.aceite?._id) {
+              alert('El aceite ya existe.');
+            } else {
+              // Proceder con la actualización
+              this.updateAceite();
+            }
+          },
+          (error) => {
+            if (error instanceof HttpErrorResponse) {
+              if (error.status === 404) {
+                // Proceder con la actualización si no se encuentra el aceite
+                this.updateAceite();
+              } else {
+                alert('Error verificando el aceite.');
+              }
+            } else {
+              alert('Error desconocido: ' + error.message);
+            }
           }
-        },
-        error => {
-          if (error.status === 400) {
-            alert('El aceite ya existe o hubo un error al actualizar.');
-          } else {
-            alert('Error desconocido.');
-          }
-        });
+        );
     }
   }
 
-  cancelar(): void {
-    this.aceiteTemporal = { ...this.aceite }; // Restaurar el estado original
-    this.CancelarEdicion.emit();
+  updateAceite(): void {
+    if (this.aceite) {
+      this.aceiteService.updateAceite(this.aceite._id, this.aceite)
+        .subscribe(updatedAceite => {
+          this.aceite = updatedAceite;
+          alert('Aceite actualizado exitosamente.');
+        },
+        error => {
+          alert('Error al actualizar el aceite.');
+        });
+    }
   }
 }
