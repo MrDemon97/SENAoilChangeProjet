@@ -1,1 +1,44 @@
-<p>aceite-search works!</p>
+<div class="aceite-search-container">
+    <h2>Buscar Aceite</h2>
+    <form (ngSubmit)="getAceiteBuscado()">
+      <div class="form-group">
+        <label for="referencia">Referencia:</label>
+        <input required="Llene este campo" type="text" id="referencia" [(ngModel)]="referencia" name="referencia" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input required="Llene este campo" type="text" id="marca" [(ngModel)]="marca" name="marca" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="presentacion">Presentación:</label>
+        <select id="presentacion" [(ngModel)]="presentacion" name="presentacion" class="form-control" required>
+          <option value="Galon 4L">Galón 4L</option>
+          <option value="Galon 5L">Galón 5L</option>
+          <option value="Cuarto Sellado">Cuarto Sellado</option>
+          <option value="Cuarto Granel">Cuarto Granel</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" [(ngModel)]="tipo" name="tipo" class="form-control" required>
+          <option value="Sintético">Sintético</option>
+          <option value="Semi">Semi</option>
+          <option value="Mineral">Mineral</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+  
+    <div *ngIf="aceiteEncontrado" class="aceite-result">
+      <h3>Aceite Encontrado</h3>
+      <p><strong>Referencia:</strong> {{ aceiteEncontrado.referencia }}</p>
+      <p><strong>Marca:</strong> {{ aceiteEncontrado.marca }}</p>
+      <p><strong>Presentación:</strong> {{ aceiteEncontrado.presentacion }}</p>
+      <p><strong>Tipo:</strong> {{ aceiteEncontrado.tipo }}</p>
+    </div>
+  
+    <div *ngIf="aceiteEncontrado === undefined" class="aceite-not-found">
+      <p>No se encontró ningún aceite con las características especificadas.</p>
+    </div>
+  </div>
+  

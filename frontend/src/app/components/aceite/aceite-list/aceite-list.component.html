@@ -1,1 +1,59 @@
-<p>aceite-list works!</p>
+<div class="aceite-list-container">
+  <h2>Lista de Aceites</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Referencia</th>
+        <th>Marca</th>
+        <th>Presentación</th>
+        <th>Tipo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let aceite of aceites">
+        <td>{{ aceite.referencia }}</td>
+        <td>{{ aceite.marca }}</td>
+        <td>{{ aceite.presentacion }}</td>
+        <td>{{ aceite.tipo }}</td>
+        <td>
+          <button (click)="deleteAceite(aceite._id)" class="btn btn-danger">Eliminar</button>
+          <button (click)="actualizarAceite(aceite)" class="btn btn-primary">Actualizar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="mostrarFormularioActualizar" class="update-form">
+    <h3>Actualizar Aceite</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="referencia">Referencia:</label>
+        <input type="text" id="referencia" [(ngModel)]="aceiteSeleccionado.referencia" name="referencia" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" [(ngModel)]="aceiteSeleccionado.marca" name="marca" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="presentacion">Presentación:</label>
+        <select id="presentacion" [(ngModel)]="aceiteSeleccionado.presentacion" name="presentacion" class="form-control" required>
+          <option value="Galon 4L">Galón 4L</option>
+          <option value="Galon 5L">Galón 5L</option>
+          <option value="Cuarto Sellado">Cuarto Sellado</option>
+          <option value="Cuarto Granel">Cuarto Granel</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" [(ngModel)]="aceiteSeleccionado.tipo" name="tipo" class="form-control" required>
+          <option value="Sintético">Sintético</option>
+          <option value="Semi">Semi</option>
+          <option value="Mineral">Mineral</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success">Guardar</button>
+      <button type="button" (click)="mostrarFormularioActualizar = false" class="btn btn-secondary">Cancelar</button>
+    </form>
+  </div>
+</div>

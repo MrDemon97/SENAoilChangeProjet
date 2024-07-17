@@ -1,1 +1,32 @@
-<p>aceite-update works!</p>
+<div *ngIf="aceite" class="aceite-update-container">
+    <h2>Actualizar Aceite</h2>
+    <form (ngSubmit)="updateAceite()">
+      <div class="form-group">
+        <label for="referencia">Referencia:</label>
+        <input type="text" id="referencia" [(ngModel)]="aceite.referencia" name="referencia" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" [(ngModel)]="aceite.marca" name="marca" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="presentacion">Presentación:</label>
+        <select id="presentacion" [(ngModel)]="aceite.presentacion" name="presentacion" class="form-control" required>
+          <option value="Galon 4L">Galón 4L</option>
+          <option value="Galon 5L">Galón 5L</option>
+          <option value="Cuarto Sellado">Cuarto Sellado</option>
+          <option value="Cuarto Granel">Cuarto Granel</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" [(ngModel)]="aceite.tipo" name="tipo" class="form-control" required>
+          <option value="Sintético">Sintético</option>
+          <option value="Semi">Semi</option>
+          <option value="Mineral">Mineral</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+  </div>
+  

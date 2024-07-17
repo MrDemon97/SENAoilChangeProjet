@@ -1,1 +1,11 @@
-<p>aceite-delete works!</p>
+<div class="aceite-delete-container">
+    <h2>Eliminar Aceite</h2>
+    <form (ngSubmit)="deleteAceite()">
+      <div class="form-group">
+        <label for="aceiteId">ID del Aceite:</label>
+        <input type="text" id="aceiteId" [(ngModel)]="id" name="id" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-danger">Eliminar</button>
+    </form>
+  </div>
+  

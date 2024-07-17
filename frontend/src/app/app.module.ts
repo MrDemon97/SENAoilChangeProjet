@@ -7,10 +7,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
-import { AceiteComponent } from './components/aceite/aceite.component';
+//import { AceiteComponent } from './components/aceite/aceite.component';
 import { FiltroComponent } from './components/filtro/filtro.component';
 import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
 import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component'; 
+import { AceiteDeleteComponent } from './components/aceite/aceite-delete/aceite-delete.component';
+import { AceiteCreateComponent } from './components/aceite/aceite-create/aceite-create.component';
+import { AceiteListComponent } from './components/aceite/aceite-list/aceite-list.component';
+import { AceiteUpdateComponent } from './components/aceite/aceite-update/aceite-update.component';
+import { AceiteSearchComponent } from './components/aceite/aceite-search/aceite-search.component';
 //asa
 //Serv
 import { AceiteService } from './services/aceite.service';
@@ -22,8 +27,13 @@ import { FiltroService } from './services/filtro.service';
 @NgModule({
   declarations: [
     AppComponent,
+    AceiteCreateComponent,
+    AceiteDeleteComponent,
+    AceiteListComponent,
+    AceiteUpdateComponent,
+    AceiteSearchComponent
     BienvenidaComponent,
-    AceiteComponent,
+    //AceiteComponent,
     FiltroComponent,
     VehiculoComponent,
     MantenimientoComponent,

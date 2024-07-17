@@ -1,1 +1,36 @@
-<p>aceite-create works!</p>
+<div class="container">
+    <h2>Crear Nuevo Aceite</h2>
+    <form (ngSubmit)="crearAceite()">
+      <div class="form-group">
+        <label for="referencia">Referencia:</label>
+        <input type="text" id="referencia" [(ngModel)]="nuevoAceite.referencia" name="referencia" required class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" [(ngModel)]="nuevoAceite.marca" name="marca" required class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="presentacion">Presentación:</label>
+        <select id="presentacion" [(ngModel)]="nuevoAceite.presentacion" name="presentacion" required class="form-control">
+          <option value="Galon 4L">Galón 4L</option>
+          <option value="Galon 5L">Galón 5L</option>
+          <option value="Cuarto Sellado">Cuarto Sellado</option>
+          <option value="Cuarto Granel">Cuarto Granel</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" [(ngModel)]="nuevoAceite.tipo" name="tipo" required class="form-control">
+          <option value="Sintético">Sintético</option>
+          <option value="Semi">Semi</option>
+          <option value="Mineral">Mineral</option>
+        </select>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+  </div>
+  

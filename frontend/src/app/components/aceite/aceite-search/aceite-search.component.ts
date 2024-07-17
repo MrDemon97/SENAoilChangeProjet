@@ -3,7 +3,7 @@ import { AceiteService } from '../../../services/aceite.service';
 import { Aceite } from '../../../models/aceite.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-aceite-search',
@@ -16,8 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 export class AceiteSearchComponent {
   referencia = '';
   marca = '';
-  presentacion = '';
-  tipo = '';
+  presentacion: 'Galon 4L' | 'Galon 5L' | 'Cuarto Sellado' | 'Cuarto Granel' = 'Galon 4L';
+  tipo: 'Sintético' | 'Semi' | 'Mineral' = 'Sintético';
 
   aceiteEncontrado: Aceite | undefined;
 
@@ -25,10 +25,31 @@ export class AceiteSearchComponent {
 
   getAceiteBuscado(): void {
     this.aceiteService.getAceiteBuscado(this.referencia, this.marca, this.presentacion, this.tipo)
-    .subscribe(aceite => this.aceiteEncontrado = aceite,
-               error => this.aceiteEncontrado = undefined);
-    }     
-  }
+      .subscribe(
+        (aceite) => {
+          if (aceite) {
+            alert('Aceite encontrado.');
+            this.aceiteEncontrado = aceite;
+          } else {
+            alert('No se encontró el aceite.');
+            this.aceiteEncontrado = undefined;
+          }
+        },
+        (error) => {
+          if (error instanceof HttpErrorResponse) {
+            if (error.status === 404) {
+              alert('Filtro no encontrado.');
+            } else {
+              alert('Error buscando el aceite.');
+            }
+          } else {
+            alert('Error desconocido: ' + error.message);
+          }
+          this.aceiteEncontrado = undefined;
+        }
+      );
+  }    
+}
 
 
 

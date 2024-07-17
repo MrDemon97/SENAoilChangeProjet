@@ -13,15 +13,21 @@ import { HttpClientModule } from '@angular/common/http';
   templateUrl: './aceite-update.component.html',
   styleUrl: './aceite-update.component.css'
 })
-export class AceiteListComponent {
+export class AceiteUpdateComponent {
   @Input() aceite: Aceite | undefined;
- 
-  constructor(private aceiteService: AceiteService ) {}
+
+  constructor(private aceiteService: AceiteService) {}
 
   updateAceite(): void {
-    if (this.aceite){
+    if (this.aceite) {
       this.aceiteService.updateAceite(this.aceite._id, this.aceite)
-      .subscribe(updatedAceite => this.aceite = updatedAceite);
+        .subscribe(updatedAceite => {
+          this.aceite = updatedAceite;
+          alert('Aceite actualizado exitosamente.');
+        },
+        error => {
+          alert('Error al actualizar el aceite.');
+        });
     }
   }
 }

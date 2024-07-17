@@ -1,53 +1,27 @@
-  <header>
-    <!-- Encabezado común o barra de navegación -->
-  </header>
-  
-  <nav>
-    <ul>
-      <li><a routerLink="/">Inicio</a></li>
-      <li>
-        <a href="#">Gestión Aceites</a>
-        <ul class="submenu">
-          <li><a routerLink="/aceite/listar">Listar</a></li>
-          <li><a routerLink="/aceite/crear">Crear</a></li>
-          <li><a routerLink="/aceite/actualizar">Actualizar</a></li>
-          <li><a routerLink="/aceite/borrar">Borrar</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">Gestión de Filtros</a>
-        <ul class="submenu">
-          <li><a routerLink="/filtro/listar">Listar</a></li>
-          <li><a routerLink="/filtro/crear">Crear</a></li>
-          <li><a routerLink="/filtro/actualizar">Actualizar</a></li>
-          <li><a routerLink="/filtro/borrar">Borrar</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">Gestión de Vehículos</a>
-        <ul class="submenu">
-          <li><a routerLink="/vehiculo/listar">Listar</a></li>
-          <li><a routerLink="/vehiculo/crear">Crear</a></li>
-          <li><a routerLink="/vehiculo/actualizar">Actualizar</a></li>
-          <li><a routerLink="/vehiculo/borrar">Borrar</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">Historial de Mantenimiento</a>
-        <ul class="submenu">
-          <li><a routerLink="/mantenimiento/listar">Listar</a></li>
-          <li><a routerLink="/mantenimiento/crear">Crear</a></li>
-          <li><a routerLink="/mantenimiento/actualizar">Actualizar</a></li>
-          <li><a routerLink="/mantenimiento/borrar">Borrar</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
-  
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+<div style="text-align:center">
+  <h1>
+    GESTION DE MANTENIMIENTOS
+  </h1>
+  <h2>OIL CHANGE PROJET</h2>
+</div>
 
-  <footer>
-    <p>&copy; 2024 Tu Empresa. Todos los derechos reservados.</p>
-  </footer>
+<nav>
+  <ul>
+    <li><a routerLink="">Inicio</a></li>
+    <li>
+      <a href="#">Aceite</a>
+      <ul class="submenu">
+        <li><a routerLink="Aceite-Search">Buscar Aceite</a></li>
+        <li><a routerLink="Aceite-Create">Crear Aceite</a></li>
+        <li><a routerLink="Aceite-List">Listar Aceites</a></li>
+        <!-- <li><a routerLink="Aceite-Delete">Eliminar Aceite</a></li> -->
+        <!-- <li><a routerLink="Aceite-Update">Actualizar Aceite</a></li> -->
+      </ul>
+    </li>
+    <li><a routerLink="filtro">Filtros</a></li>
+    <li><a routerLink="vehiculo">Vehículos</a></li>
+    <li><a routerLink="mantenimiento">Mantenimiento</a></li>
+  </ul>
+</nav>
+
+<router-outlet></router-outlet>
