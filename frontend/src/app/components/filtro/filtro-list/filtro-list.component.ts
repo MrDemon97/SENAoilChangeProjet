@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Filtro } from '../../../models/filtro.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,7 @@ import { FiltroService } from '../../../services/filtro.service';
   templateUrl: './filtro-list.component.html',
   styleUrl: './filtro-list.component.css'
 })
-export class FiltroListComponent {
+export class FiltroListComponent implements OnInit{
   filtros: Filtro[] = [];
   mostrarFormularioActualizar: boolean = false;
   filtroSeleccionado: Filtro = {
