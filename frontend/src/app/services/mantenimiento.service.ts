@@ -7,6 +7,15 @@ import { Mantenimiento } from '../models/mantenimiento.model';
   providedIn: 'root'
 })
 export class MantenimientoService {
+  getFiltros(): Observable<import("../models/filtro.model").Filtro[]> {
+    throw new Error('Method not implemented.');
+  }
+  getAceites(): Observable<import("../models/aceite.model").Aceite[]> {
+    throw new Error('Method not implemented.');
+  }
+  getVehiculos(): Observable<import("../models/vehiculo.model").Vehiculo[]> {
+    throw new Error('Method not implemented.');
+  }
   private baseUrl = 'http://localhost:5000/api/mantenimientos';
 
   constructor(private http: HttpClient) {}

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
@@ -32,6 +33,12 @@ import { VehiculoCreateComponent } from './components/vehiculo/vehiculo-create/v
 import { VehiculoListComponent } from './components/vehiculo/vehiculo-list/vehiculo-list.component';
 import { VehiculoDeleteComponent } from './components/vehiculo/vehiculo-delete/vehiculo-delete.component';
 import { VehiculoUpdateComponent } from './components/vehiculo/vehiculo-update/vehiculo-update.component';
+
+// MANTENIMIENTO IMPORT
+
+import { MantenimientoCreateComponent } from './components/mantenimiento/mantenimiento-create/mantenimiento-create.component';
+import { MantenimientoListComponent } from './components/mantenimiento/mantenimiento-list/mantenimiento-list.component';
+
 
 //SERVICIOS
 
@@ -63,20 +70,26 @@ import { FiltroService } from './services/filtro.service';
     FiltroListComponent,
 
     // VEHICULO COMPONENT
+    
     VehiculoCreateComponent,
     VehiculoDeleteComponent,
     VehiculoListComponent,
     VehiculoUpdateComponent,
     VehiculoSearchComponent,
 
-    
+    // MANTENIMIENTO COMPONENT
+
+    MantenimientoCreateComponent,
+    MantenimientoListComponent,
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   providers: [
     VehiculoService,

@@ -1,0 +1,42 @@
+<form [formGroup]="mantenimientoForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="placa">Placa</label>
+      <input type="text" class="form-control" id="placa" formControlName="placa">
+    </div>
+    <div class="form-group">
+      <label for="fecha">Fecha</label>
+      <input type="date" class="form-control" id="fecha" formControlName="fecha">
+    </div>
+    <div class="form-group">
+      <label for="kilometraje">Kilometraje</label>
+      <input type="number" class="form-control" id="kilometraje" formControlName="kilometraje">
+    </div>
+    <div class="form-group">
+      <label for="aceiteUtilizado">Aceite Utilizado</label>
+      <select class="form-control" id="aceiteUtilizado" formControlName="aceiteUtilizado">
+        <option *ngFor="let aceite of aceites$ | async" [value]="aceite.referencia">{{ aceite.referencia }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="filtroAceite">Filtro de Aceite</label>
+      <select class="form-control" id="filtroAceite" formControlName="filtroAceite">
+        <option *ngFor="let filtro of filtrosAceite$ | async" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="filtroAire">Filtro de Aire</label>
+      <select class="form-control" id="filtroAire" formControlName="filtroAire">
+        <option *ngFor="let filtro of filtrosAire$ | async" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="tecnicoNombre">Nombre del Técnico</label>
+      <input type="text" class="form-control" id="tecnicoNombre" formControlName="tecnicoNombre">
+    </div>
+    <div class="form-group">
+      <label for="tecnicoNumeroId">Número de ID del Técnico</label>
+      <input type="text" class="form-control" id="tecnicoNumeroId" formControlName="tecnicoNumeroId">
+    </div>
+    <button type="submit" class="btn btn-primary">Crear Mantenimiento</button>
+  </form>
+  
