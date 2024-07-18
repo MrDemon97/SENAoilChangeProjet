@@ -4,9 +4,9 @@ const mantenimientoCtrl = require('../controllers/mantenimientoController');
 
 // Rutas para Mantenimientos
 router.get('/', mantenimientoCtrl.getMantenimientos);
-router.get('/:id', mantenimientoCtrl.getMantenimientoById);
+router.get('/:_id', mantenimientoCtrl.getMantenimientoById);
 router.post('/', mantenimientoCtrl.createMantenimiento);
-router.delete('/:id', mantenimientoCtrl.deleteMantenimiento);
+router.delete('/:_id', mantenimientoCtrl.deleteMantenimiento);
 router.get('/fecha', mantenimientoCtrl.getMantenimientosByFecha);
 router.get('/tecnico', mantenimientoCtrl.getMantenimientosByTecnicoId);
 router.get('/propietario', mantenimientoCtrl.getMantenimientosByPropietarioId);

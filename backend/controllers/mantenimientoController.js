@@ -1,80 +1,145 @@
 const Mantenimiento = require('../models/Mantenimiento');
+const Vehiculo = require('../models/Vehiculo');
 
 const mantenimientoCtrl = {};
 
-// Crear un nuevo registro de mantenimiento
-mantenimientoCtrl.createMantenimiento = async (req, res) => {
-    // Extraemos los datos del cuerpo de la solicitud
-    const { vehiculo, fecha, kilometraje, cantidadAceite, aceiteUtilizado, filtroAceite, filtroAire, tecnico } = req.body;
-    // Creamos una nueva instancia del modelo Mantenimiento con los datos proporcionados
-    const newMantenimiento = new Mantenimiento({ vehiculo, fecha, kilometraje, cantidadAceite, aceiteUtilizado, filtroAceite, filtroAire, tecnico });
-    try {
-        // Intentamos guardar el nuevo documento en la base de datos
-        const savedMantenimiento = await newMantenimiento.save();
-        // Enviamos el documento guardado en formato JSON con el código de estado 201 (Creado)
-        res.status(201).json(savedMantenimiento);
-    } catch (err) {
-        // Si ocurre un error, enviamos una respuesta con el código de estado 400 y un mensaje de error
-        res.status(400).json({ message: err.message });
-    }
-};
-
-// Obtener todos los registros de mantenimiento (opcionalmente filtrados por fecha, técnico, placa del vehículo y número de identificación del propietario del vehículo)
+// Obtener todos los mantenimientos
 mantenimientoCtrl.getMantenimientos = async (req, res) => {
     try {
-        // Creamos un objeto de consulta vacío
-        let query = {};
-
-        // Si se proporciona una fecha en la consulta, la añadimos al objeto de consulta
-        if (req.query.fecha) {
-            query.fecha = req.query.fecha;
-        }
-
-        // Si se proporciona el nombre del técnico en la consulta, la añadimos al objeto de consulta
-        if (req.query.tecnicoNombre) {
-            query['tecnico.nombre'] = req.query.tecnicoNombre;
-        }
-
-        // Si se proporciona el número de identificación del técnico en la consulta, la añadimos al objeto de consulta
-        if (req.query.tecnicoNumeroId) {
-            query['tecnico.numeroId'] = req.query.tecnicoNumeroId;
-        }
-
-        // Si se proporciona la placa del vehículo en la consulta, la añadimos al objeto de consulta
-        if (req.query.placaVehiculo) {
-            const vehiculo = await Vehiculo.findOne({ placa: req.query.placaVehiculo });
-            if (vehiculo) {
-                query.vehiculo = vehiculo._id;
-            } else {
-                return res.status(404).json({ message: 'Vehículo no encontrado' });
-            }
-        }
-
-        // Si se proporciona el número de identificación del propietario del vehículo en la consulta, la añadimos al objeto de consulta
-        if (req.query.numeroIdPropietario) {
-            const vehiculos = await Vehiculo.find({ 'propietario.numeroId': req.query.numeroIdPropietario });
-            if (vehiculos.length > 0) {
-                query.vehiculo = { $in: vehiculos.map(vehiculo => vehiculo._id) };
-            } else {
-                return res.status(404).json({ message: 'Propietario no encontrado' });
-            }
-        }
-
-        // Intentamos obtener todos los documentos de la colección Mantenimiento que coincidan con la consulta
-        // Usamos populate para obtener los documentos relacionados de las colecciones vehiculo, aceiteUtilizado, filtroAceite, filtroAire y tecnico
-        const mantenimientos = await Mantenimiento.find(query)
-            .populate('vehiculo', 'placa propietario')
-            .populate('aceiteUtilizado', 'referencia marca tipo')
-            .populate('filtroAceite', 'referencia marca tipo')
-            .populate('filtroAire', 'referencia marca tipo');
-
-        // Enviamos los documentos obtenidos en formato JSON como respuesta
+        const mantenimientos = await Mantenimiento.find();
         res.json(mantenimientos);
     } catch (err) {
-        // Si ocurre un error, enviamos una respuesta con el código de estado 500 y un mensaje de error
         res.status(500).json({ message: err.message });
     }
 };
 
-// Exportamos el objeto mantenimientoCtrl para que pueda ser utilizado en otras partes de la aplicación
+// Obtener mantenimiento por ID
+mantenimientoCtrl.getMantenimientoById = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const mantenimiento = await Mantenimiento.findById(id);
+        if (!mantenimiento) {
+            return res.status(404).json({ message: 'Mantenimiento no encontrado' });
+        }
+        res.json(mantenimiento);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Crear un nuevo mantenimiento
+mantenimientoCtrl.createMantenimiento = async (req, res) => {
+    const {
+        placa,
+        fecha,
+        kilometraje,
+        aceitesUsados,
+        filtroAceite,
+        filtroAire,
+        tecnicoNombre,
+        tecnicoNumeroId
+    } = req.body;
+
+    try {
+        // Buscar el vehículo por su placa para obtener su información
+        const vehiculo = await Vehiculo.findOne({ placa });
+
+        if (!vehiculo) {
+            return res.status(404).json({ message: 'Vehículo no encontrado' });
+        }
+
+        // Crear el mantenimiento con referencias resueltas
+        const nuevoMantenimiento = new Mantenimiento({
+            vehiculo: {
+                placa: vehiculo.placa,
+                modelo: vehiculo.modelo,
+                propietario: {
+                    nombre: vehiculo.propietario.nombre,
+                    numeroId: vehiculo.propietario.numeroId
+                }
+            },
+            fecha,
+            kilometraje,
+            aceitesUsados,
+            filtroAceite,
+            filtroAire,
+            tecnico: {
+                nombre: tecnicoNombre,
+                numeroId: tecnicoNumeroId
+            }
+        });
+
+        // Guardar el nuevo mantenimiento en la base de datos
+        const mantenimientoGuardado = await nuevoMantenimiento.save();
+        res.status(201).json(mantenimientoGuardado);
+
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+// Eliminar un mantenimiento por ID
+mantenimientoCtrl.deleteMantenimiento = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const mantenimiento = await Mantenimiento.findByIdAndDelete(id);
+        if (!mantenimiento) {
+            return res.status(404).json({ message: 'Mantenimiento no encontrado' });
+        }
+        res.json({ message: 'Mantenimiento eliminado' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por fecha (formato: yyyy-mm-dd)
+mantenimientoCtrl.getMantenimientosByFecha = async (req, res) => {
+    const fecha = req.query.fecha;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ fecha: { $gte: new Date(fecha), $lt: new Date(fecha + 'T23:59:59.999Z') } });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por ID del técnico
+mantenimientoCtrl.getMantenimientosByTecnicoId = async (req, res) => {
+    const tecnicoId = req.query.tecnicoId;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ 'tecnico.numeroId': tecnicoId });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por ID del propietario del vehículo
+mantenimientoCtrl.getMantenimientosByPropietarioId = async (req, res) => {
+    const propietarioId = req.query.propietarioId;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ 'vehiculo.idPropietario': propietarioId });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por placa del vehículo
+mantenimientoCtrl.getMantenimientosByPlaca = async (req, res) => {
+    const placa = req.query.placa;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ 'vehiculo.placa': placa });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = mantenimientoCtrl;
