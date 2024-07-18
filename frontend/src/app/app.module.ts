@@ -7,8 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
-import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
-import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component'; 
 
 // ACEITE COMPONENT
 
@@ -28,6 +26,13 @@ import { FiltroUpdateComponent } from './components/filtro/filtro-update/filtro-
 import { FiltroDeleteComponent } from './components/filtro/filtro-delete/filtro-delete.component';
 
 
+// VEHICULO IMPORT
+import { VehiculoSearchComponent } from './components/vehiculo/vehiculo-search/vehiculo-search.component';
+import { VehiculoCreateComponent } from './components/vehiculo/vehiculo-create/vehiculo-create.component';
+import { VehiculoListComponent } from './components/vehiculo/vehiculo-list/vehiculo-list.component';
+import { VehiculoDeleteComponent } from './components/vehiculo/vehiculo-delete/vehiculo-delete.component';
+import { VehiculoUpdateComponent } from './components/vehiculo/vehiculo-update/vehiculo-update.component';
+
 //SERVICIOS
 
 import { AceiteService } from './services/aceite.service';
@@ -39,8 +44,7 @@ import { FiltroService } from './services/filtro.service';
   declarations: [
     AppComponent,
     BienvenidaComponent,
-    VehiculoComponent,
-    MantenimientoComponent,
+
     
     // ACEITE COMPONENT
 
@@ -57,6 +61,15 @@ import { FiltroService } from './services/filtro.service';
     FiltroDeleteComponent,
     FiltroSearchComponent,
     FiltroListComponent,
+
+    // VEHICULO COMPONENT
+    VehiculoCreateComponent,
+    VehiculoDeleteComponent,
+    VehiculoListComponent,
+    VehiculoUpdateComponent,
+    VehiculoSearchComponent,
+
+    
   ],
   imports: [
     BrowserModule,

@@ -1,89 +1,145 @@
-const Aceite = require('../models/Aceite');
+const Mantenimiento = require('../models/Mantenimiento');
+const Vehiculo = require('../models/Vehiculo');
 
-const aceiteCtrl = {};
+const mantenimientoCtrl = {};
 
-//Obtener todos los aceites 
-
-aceiteCtrl.getAceites = async (req, res) => {
-  try {
-    //Recuoerar todos los registros de aceites de la base de datos
-    const aceites = await Aceite.find();
-    res.json(aceites);
-  } catch (err) {
-    //Manejar errores y enviar un mensaje de error
-    res.status(500).json({ message: err.message });
-  }
-};
-
-//Obtener un aceite buscado
-
-aceiteCtrl.getAceiteBuscado = async (req, res) => {
-  const {referencia, marca, presentacion, tipo} = req.query;
-  try {
-    //Recuoerar todos los registros de aceites de la base de datos
-    const aceite = await Aceite.findOne({referencia, marca, presentacion, tipo});
-    if (!aceite){
-      return res.status(404).json({message: "No se encontro el aceite buscado"});
+// Obtener todos los mantenimientos
+mantenimientoCtrl.getMantenimientos = async (req, res) => {
+    try {
+        const mantenimientos = await Mantenimiento.find();
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
-    res.json({ id: aceite._id, ...aceite._doc}); // incluimos el id
-} catch (err) {
-  //Manejar errores y enviar un mensaje de error
-  res.status(500).json({ message: err.message });
-  }
 };
 
-// Crear un nuevo aceite 
-aceiteCtrl.createAceite = async (req, res) => {
-  const { referencia, marca, presentacion, tipo } = req.body;
-  const newAceite = new Aceite({ referencia, marca, presentacion, tipo });
-  try {
-    // Verificar si un aceite con los mismo valores ya existe
-    const existingAceite = await Aceite.findOne({ referencia, marca, presentacion, tipo});
-    if (existingAceite) {
-      return res.status(400).json({ message: "El aceite ya existe" });
-    }
+// Obtener mantenimiento por ID
+mantenimientoCtrl.getMantenimientoById = async (req, res) => {
+    const id = req.params.id;
 
-    const savedAceite = await newAceite.save();
-    res.status(201).json( {message: "Creado con exito", savedAceite});
-  } catch (err) {
-    res.status(400).json({ message: "Error Creando el aceite" });
-  }
-};
-
-// Actualizar un aceite existente basados en su _id
-aceiteCtrl.updateAceite = async (req, res) => {
-  try {
-    const { _id } = req.params; // Verifica que esto sea lo correcto
-    const { referencia, marca, presentacion, tipo } = req.body;
-
-    const updatedAceite = await Aceite.findByIdAndUpdate(
-      _id,
-      { referencia, marca, presentacion, tipo },
-      { new: true }
-    );
-
-    if (!updatedAceite) {
-      return res.status(404).json({ message: "No se encontró el aceite para actualizar" });
-    }
-
-    res.json({ message: "Aceite actualizado con éxito", updatedAceite });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-// Eliminar un aceite
-aceiteCtrl.deleteAceite = async (req,res) =>{
-  const {_id} = req.params; // Usar el ID para eliminar
-  try {
-    const deletedAceite = await Aceite.findByIdAndDelete(_id);
-    if (!deletedAceite) {
-      return res.status(404).json({ message: "No se encontro el aceite para eliminar"});
+    try {
+        const mantenimiento = await Mantenimiento.findById(id);
+        if (!mantenimiento) {
+            return res.status(404).json({ message: 'Mantenimiento no encontrado' });
         }
-    res.json({ message: "Aceite eliminado con exito", deletedAceite}); 
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+        res.json(mantenimiento);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 };
 
-module.exports = aceiteCtrl;
+// Crear un nuevo mantenimiento
+mantenimientoCtrl.createMantenimiento = async (req, res) => {
+    const {
+        placa,
+        fecha,
+        kilometraje,
+        aceitesUsados,
+        filtroAceite,
+        filtroAire,
+        tecnicoNombre,
+        tecnicoNumeroId
+    } = req.body;
+
+    try {
+        // Buscar el vehículo por su placa para obtener su información
+        const vehiculo = await Vehiculo.findOne({ placa });
+
+        if (!vehiculo) {
+            return res.status(404).json({ message: 'Vehículo no encontrado' });
+        }
+
+        // Crear el mantenimiento con referencias resueltas
+        const nuevoMantenimiento = new Mantenimiento({
+            vehiculo: {
+                placa: vehiculo.placa,
+                modelo: vehiculo.modelo,
+                propietario: {
+                    nombre: vehiculo.propietario.nombre,
+                    numeroId: vehiculo.propietario.numeroId
+                }
+            },
+            fecha,
+            kilometraje,
+            aceitesUsados,
+            filtroAceite,
+            filtroAire,
+            tecnico: {
+                nombre: tecnicoNombre,
+                numeroId: tecnicoNumeroId
+            }
+        });
+
+        // Guardar el nuevo mantenimiento en la base de datos
+        const mantenimientoGuardado = await nuevoMantenimiento.save();
+        res.status(201).json(mantenimientoGuardado);
+
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+// Eliminar un mantenimiento por ID
+mantenimientoCtrl.deleteMantenimiento = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const mantenimiento = await Mantenimiento.findByIdAndDelete(id);
+        if (!mantenimiento) {
+            return res.status(404).json({ message: 'Mantenimiento no encontrado' });
+        }
+        res.json({ message: 'Mantenimiento eliminado' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por fecha (formato: yyyy-mm-dd)
+mantenimientoCtrl.getMantenimientosByFecha = async (req, res) => {
+    const fecha = req.query.fecha;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ fecha: { $gte: new Date(fecha), $lt: new Date(fecha + 'T23:59:59.999Z') } });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por ID del técnico
+mantenimientoCtrl.getMantenimientosByTecnicoId = async (req, res) => {
+    const tecnicoId = req.query.tecnicoId;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ 'tecnico.numeroId': tecnicoId });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por ID del propietario del vehículo
+mantenimientoCtrl.getMantenimientosByPropietarioId = async (req, res) => {
+    const propietarioId = req.query.propietarioId;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ 'vehiculo.idPropietario': propietarioId });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// Listar mantenimientos por placa del vehículo
+mantenimientoCtrl.getMantenimientosByPlaca = async (req, res) => {
+    const placa = req.query.placa;
+
+    try {
+        const mantenimientos = await Mantenimiento.find({ 'vehiculo.placa': placa });
+        res.json(mantenimientos);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+module.exports = mantenimientoCtrl;

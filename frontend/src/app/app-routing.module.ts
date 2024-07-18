@@ -23,6 +23,13 @@ import { FiltroSearchComponent } from './components/filtro/filtro-search/filtro-
 import { FiltroUpdateComponent } from './components/filtro/filtro-update/filtro-update.component';
 import { FiltroDeleteComponent } from './components/filtro/filtro-delete/filtro-delete.component';
 
+
+import { VehiculoSearchComponent } from './components/vehiculo/vehiculo-search/vehiculo-search.component';
+import { VehiculoCreateComponent } from './components/vehiculo/vehiculo-create/vehiculo-create.component';
+import { VehiculoListComponent } from './components/vehiculo/vehiculo-list/vehiculo-list.component';
+import { VehiculoDeleteComponent } from './components/vehiculo/vehiculo-delete/vehiculo-delete.component';
+import { VehiculoUpdateComponent } from './components/vehiculo/vehiculo-update/vehiculo-update.component';
+
 export const routes: Routes = [
 
   { path: '', component: BienvenidaComponent },
@@ -43,6 +50,15 @@ export const routes: Routes = [
   //{ path: 'Filtro-Delete', component: FiltroDeleteComponent},
   //{ path: 'Filtro-Update', component: FiltroUpdateComponent},
   
+  //PATH VEHICULOS
+  { path: 'Vehiculo-Search', component: VehiculoSearchComponent},
+  { path: 'Vehiculo-Create', component: VehiculoCreateComponent},
+  { path: 'Vehiculo-List', component: VehiculoListComponent},
+  //{ path: 'Vehiculo-Delete', component: VehiculoDeleteComponent},
+//  { path: 'Vehiculo-Update', component: VehiculoUpdateComponent},
+
+
+
 
 ];
 

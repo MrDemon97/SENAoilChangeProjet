@@ -1,1 +1,44 @@
-<p>vehiculo-list works!</p>
+<div class="list-container">
+    <h2>Lista de Vehículos</h2>
+    
+    <div class="filter-buttons">
+      <button (click)="buscarPor = 'vehiculo'; buscar()">Listar por Vehículo</button>
+      <button (click)="buscarPor = 'propietario'">Listar por Propietario</button>
+    </div>
+  
+    <div *ngIf="buscarPor === 'propietario'" class="propietario-search">
+      <label for="propietarioId">ID del Propietario:</label>
+      <input id="propietarioId" [(ngModel)]="propietarioId" placeholder="Ingrese ID del propietario" />
+      <button (click)="buscar()">Buscar</button>
+    </div>
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Placa</th>
+          <th>Propietario</th>
+          <th>Marca</th>
+          <th>Serie</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehiculo of vehiculos">
+          <td>{{ vehiculo.placa }}</td>
+          <td>{{ vehiculo.propietario.nombre }}</td>
+          <td>{{ vehiculo.modelo.marca }}</td>
+          <td>{{vehiculo.modelo.serie}}</td>
+          <td>
+            <button (click)="actualizarVehiculo(vehiculo)" class="btn btn-primary">Actualizar</button>
+            <button (click)="deleteVehiculo(vehiculo._id)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <app-vehiculo-update *ngIf="mostrarFormularioActualizar"
+                         [vehiculo]="vehiculoSeleccionado"
+                         (vehiculoActualizado)="onVehiculoActualizado()">
+    </app-vehiculo-update>
+  </div>
+  

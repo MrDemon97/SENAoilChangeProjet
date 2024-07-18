@@ -1,1 +1,29 @@
-<p>vehiculo-search works!</p>
+<div class="search-container">
+    <h2>Buscar Vehículo</h2>
+    <form (ngSubmit)="getVehiculoBuscado()">
+      <div class="form-group">
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" [(ngModel)]="placa" name="placa" class="form-control">
+      </div>
+   <!--    <div class="form-group">
+        <label for="propietario-id">ID del Propietario:</label>
+        <input type="text" id="propietario-id" [(ngModel)]="propietarioId" name="propietario-id" class="form-control">
+      </div> -->
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+  
+    <div *ngIf="vehiculoEncontrado" class="result">
+      <h3>Vehículo Encontrado</h3>
+      <p><strong>Placa:</strong> {{ vehiculoEncontrado.placa }}</p>
+      <p><strong>Nombre del Propietario:</strong> {{ vehiculoEncontrado.propietario.nombre }}</p>
+      <p><strong>ID del Propietario:</strong> {{ vehiculoEncontrado.propietario.numeroId }}</p>
+      <p><strong>Año:</strong> {{ vehiculoEncontrado.modelo.ano }}</p>
+      <p><strong>Marca:</strong> {{ vehiculoEncontrado.modelo.marca }}</p>
+      <p><strong>Serie:</strong> {{ vehiculoEncontrado.modelo.serie }}</p>
+    </div>
+  
+    <div *ngIf="vehiculoEncontrado === undefined" class="not-found">
+      <p>No se encontró ningún vehículo con las características especificadas.</p>
+    </div>
+  </div>
+  

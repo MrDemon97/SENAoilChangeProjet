@@ -6,32 +6,42 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class VehiculoService {
-  private url = 'http://localhost:5000/api/vehiculos';
+  private baseUrl = 'http://localhost:5000/api/vehiculos';
 
   constructor(private http: HttpClient) { }
 
-  //Metodo para obtener todos los vehiculos
+  // Método para obtener todos los vehículos
   getVehiculos(): Observable<any> {
-    return this.http.get(this.url);
+    return this.http.get(this.baseUrl);
   }
 
-  //Metodo para crear un nuevo vehiculo
-  createVehiculo(vehiculo: any): Observable<any> {
-    return this.http.post(this.url, vehiculo);
+  // Método para obtener todos los propietarios
+  getPropietarios(): Observable<any> {
+    return this.http.get(this.baseUrl + '/propietarios');
   }
 
-  // Metodo para optener un vehiculo por su placa
+  // Método para obtener un vehículo por su placa
   getVehiculoByPlaca(placa: string): Observable<any> {
-    return this.http.get(this.url + '/' + placa);
+    return this.http.get(`${this.baseUrl}/${placa}`);
   }
 
-  //Metodo para actualizar un vehiculo por su placa
-  updateVehiculo(placa: string, vehiculo: any): Observable<any> {
-    return this.http.put(this.url + '/' + placa, vehiculo);
+  // Método para obtener vehículos por número de ID del propietario
+  getVehiculosByPropietarioId(numeroId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/propietario/${numeroId}`);
   }
 
-  //Metodo para elimiar un vehiculo por su placa
-  deleteVehiculo(placa: string): Observable<any> {
-    return this.http.delete(this.url + '/' + placa);
+  // Método para crear un nuevo vehículo
+  createVehiculo(vehiculo: any): Observable<any> {
+    return this.http.post(this.baseUrl, vehiculo);
+  }
+
+  // Método para actualizar un vehículo por su ID
+  updateVehiculo(id: string, vehiculo: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${id}`, vehiculo);
+  }
+
+  // Método para eliminar un vehículo por su ID
+  deleteVehiculo(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

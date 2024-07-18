@@ -3,7 +3,7 @@ export class Vehiculo {
     placa: string;
     propietario: {
         nombre: string;
-        numeroID: string;
+        numeroId: string;
     };
     modelo: {
         ano: number;
@@ -17,7 +17,7 @@ export class Vehiculo {
 
         propietario: { 
             nombre: string; 
-            numeroID: string } = { nombre: "", numeroID: "" },
+            numeroId: string } = { nombre: "", numeroId: "" },
 
         modelo: { 
             ano: number; 

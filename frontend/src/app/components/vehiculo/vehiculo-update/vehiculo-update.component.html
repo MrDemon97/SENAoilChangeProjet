@@ -1,1 +1,31 @@
-<p>vehiculo-update works!</p>
+<div *ngIf="vehiculo" class="update-container">
+    <h2>Actualizar Vehículo</h2>
+    <form (ngSubmit)="verificarYActualizarVehiculo()">
+      <div class="form-group">
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" [(ngModel)]="vehiculo.placa" name="placa" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="nombre">Propietario:</label>
+        <input type="text" id="nombre" [(ngModel)]="vehiculo.propietario.nombre" name="nombre" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="numeroId">Número de ID del Propietario:</label>
+        <input type="text" id="numeroId" [(ngModel)]="vehiculo.propietario.numeroId" name="numeroId" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" [(ngModel)]="vehiculo.modelo.marca" name="marca" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="ano">Año:</label>
+        <input type="number" id="ano" [(ngModel)]="vehiculo.modelo.ano" name="ano" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="serie">Serie:</label>
+        <input type="text" id="serie" [(ngModel)]="vehiculo.modelo.serie" name="serie" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+  </div>
+  

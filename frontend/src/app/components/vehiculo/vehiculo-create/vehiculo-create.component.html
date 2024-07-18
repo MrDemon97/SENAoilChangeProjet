@@ -1,1 +1,37 @@
-<p>vehiculo-create works!</p>
+<div class="create-container">
+    <h2>Crear Nuevo Vehículo</h2>
+    <form (ngSubmit)="crearVehiculo()">
+      <div class="form-group">
+        <label for="placa">Placa:</label>
+        <input type="text" id="placa" [(ngModel)]="nuevoVehiculo.placa" name="placa" required class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="propietario-nombre">Nombre del Propietario:</label>
+        <input type="text" id="propietario-nombre" [(ngModel)]="nuevoVehiculo.propietario.nombre" name="propietario-nombre" required class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="propietario-id">ID del Propietario:</label>
+        <input type="text" id="propietario-id" [(ngModel)]="nuevoVehiculo.propietario.numeroId" name="propietario-id" required class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="modelo-ano">Año del Modelo:</label>
+        <input type="number" id="modelo-ano" [(ngModel)]="nuevoVehiculo.modelo.ano" name="modelo-ano" required class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="modelo-marca">Marca del Modelo:</label>
+        <input type="text" id="modelo-marca" [(ngModel)]="nuevoVehiculo.modelo.marca" name="modelo-marca" required class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="modelo-serie">Serie del Modelo:</label>
+        <input type="text" id="modelo-serie" [(ngModel)]="nuevoVehiculo.modelo.serie" name="modelo-serie" required class="form-control">
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+  </div>
+  
