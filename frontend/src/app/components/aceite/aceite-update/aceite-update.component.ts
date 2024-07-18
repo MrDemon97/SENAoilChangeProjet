@@ -57,7 +57,7 @@ export class AceiteUpdateComponent {
             alert('Aceite actualizado exitosamente.'); // Muestra una alerta de éxito
           },
           error => {
-            alert('Error al actualizar el aceite.'); // Muestra una alerta en caso de error
+            alert('Error al actualizar el aceite.' + error.message); // Muestra una alerta en caso de error
           }
         );
     }

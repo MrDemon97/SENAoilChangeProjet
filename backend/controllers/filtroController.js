@@ -108,10 +108,10 @@ filtroCtrl.updateFiltro = async (req, res) => {
         }
 
         //Si se encuentra se envia mensaje actualizado con exito
-        res.json({ message: "Filtro Actualizado con exito", updatedAceite });
+        res.json({ message: "Filtro Actualizado con exito", updatedFiltro });
     } catch (err) {
         //Si ocurre un error se envia un codigo de estado http con 500
-        res.status(500).json({ message: err.message });
+        res.status(400).json({ message: err.message });
     }
 };
 

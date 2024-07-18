@@ -1,1 +1,22 @@
-<p>filtro-update works!</p>
+<div class="filtro-update-container">
+    <h2>Actualizar fILTRO</h2>
+    <form *ngIf="filtro" (ngSubmit)="verificarYActualizarFiltro()">
+      <div class="form-group">
+        <label for="referencia">Referencia:</label>
+        <input type="text" id="referencia" [(ngModel)]="filtro.referencia" name="referencia" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" [(ngModel)]="filtro.marca" name="marca" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" [(ngModel)]="filtro.tipo" name="tipo" required class="form-control">
+          <option value="Aire">Aire</option>
+          <option value="Aceite">Aceite</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Actualizar Filtro</button>
+    </form>
+  </div>
+  

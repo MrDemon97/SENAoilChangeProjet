@@ -55,7 +55,7 @@ export class FiltroUpdateComponent {
             alert('Filtro actualizado exitosamente.');
           },
           error => {
-            alert('Error al actualizar el filtro.');
+            alert('Error al actualizar el filtro.' + error.message);
           }
         );
     }

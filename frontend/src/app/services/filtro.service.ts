@@ -23,7 +23,7 @@ export class FiltroService {
 
   // Método para obtener un filtro por su referencia
   getFiltroByReferencia(referencia: string): Observable<Filtro> {
-      return this.http.get<Filtro>(`${this.apiUrl}/${referencia}`);
+      return this.http.get<any>(`${this.apiUrl}/${referencia}`);
   }
 
   // Método para actualizar un filtro por su id
