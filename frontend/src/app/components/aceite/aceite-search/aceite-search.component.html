@@ -1,4 +1,4 @@
-<div class="aceite-search-container">
+<div class="search-container">
     <h2>Buscar Aceite</h2>
     <form (ngSubmit)="getAceiteBuscado()">
       <div class="form-group">
@@ -29,7 +29,7 @@
       <button type="submit" class="btn btn-primary">Buscar</button>
     </form>
   
-    <div *ngIf="aceiteEncontrado" class="aceite-result">
+    <div *ngIf="aceiteEncontrado" class="result">
       <h3>Aceite Encontrado</h3>
       <p><strong>Referencia:</strong> {{ aceiteEncontrado.referencia }}</p>
       <p><strong>Marca:</strong> {{ aceiteEncontrado.marca }}</p>
@@ -37,7 +37,7 @@
       <p><strong>Tipo:</strong> {{ aceiteEncontrado.tipo }}</p>
     </div>
   
-    <div *ngIf="aceiteEncontrado === undefined" class="aceite-not-found">
+    <div *ngIf="aceiteEncontrado === undefined" class="not-found">
       <p>No se encontró ningún aceite con las características especificadas.</p>
     </div>
   </div>

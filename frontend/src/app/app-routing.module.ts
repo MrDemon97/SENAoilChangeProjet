@@ -6,8 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 /* import { AppComponent } from '../app/app.component'; */
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 //import { AceiteComponent } from './components/aceite/aceite.component';
-import { VehiculoComponent } from './components/vehiculo/vehiculo.component';
-import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component'; 
 
 // COMPONENTES ACEITE
 
@@ -29,7 +27,7 @@ export const routes: Routes = [
 
   { path: '', component: BienvenidaComponent },
 
-  // PATH ACEITE
+  // PATH ACEITES
   
   { path: 'Aceite-Search', component: AceiteSearchComponent},
   { path: 'Aceite-Create', component: AceiteCreateComponent},
@@ -37,18 +35,15 @@ export const routes: Routes = [
   //{ path: 'Aceite-Delete', component: AceiteDeleteComponent},
   //{ path: 'Aceite-Update', component: AceiteUpdateComponent},
   
-  // PATH FILTRO
+  // PATH FILTROS
 
   { path: 'Filtro-Search', component: FiltroSearchComponent},
   { path: 'Filtro-Create', component: FiltroCreateComponent},
   { path: 'Filtro-List', component: FiltroListComponent},
   //{ path: 'Filtro-Delete', component: FiltroDeleteComponent},
   //{ path: 'Filtro-Update', component: FiltroUpdateComponent},
-
-
   
-  { path: 'vehiculo', component: VehiculoComponent },
-  { path: 'mantenimiento', component: MantenimientoComponent }
+
 ];
 
 @NgModule({

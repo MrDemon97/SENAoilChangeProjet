@@ -17,20 +17,17 @@ vehiculoCtrl.getVehiculos = async (req, res) => {
     }
 };
 
-// Crear un nuevo vehículo
-vehiculoCtrl.createVehiculo = async (req, res) => {
-    // Extraemos los datos del cuerpo de la solicitud
-    const { placa, propietario, modelo } = req.body;
-    // Creamos una nueva instancia del modelo Vehiculo con los datos proporcionados
-    const newVehiculo = new Vehiculo({ placa, propietario, modelo });
+vehiculoCtrl.getPropietarios = async (req, res) => {
     try {
-        // Intentamos guardar el nuevo documento en la base de datos
-        const savedVehiculo = await newVehiculo.save();
-        // Enviamos el documento guardado en formato JSON con el código de estado 201 (Creado)
-        res.status(201).json(savedVehiculo);
+        // optenemos todos los propietarios de la coleccion vehiculos
+        const propietarios = await Vehiculo.find({},'propietario.nombre propietario.numeroId placa');
+
+        // enviamos los propietarios en formato JSON como respuesta
+        res.json(propietarios);
     } catch (err) {
-        // Si ocurre un error, enviamos una respuesta con el código de estado 400 y un mensaje de error
-        res.status(400).json({ message: err.message });
+
+        // Si ocurre un error, enviamos una respuesta con el código de estado 500
+        res.status(500).json({ message: err.message });
     }
 };
 
@@ -53,17 +50,66 @@ vehiculoCtrl.getVehiculoByPlaca = async (req, res) => {
     }
 };
 
-// Actualizar un vehículo por su placa
+// Obtener vehiculos por id del propietario
+vehiculoCtrl.getVehiculosByPropietarioId = async (req, res) =>{
+    
+    // Extraemos el id del propietario de los parámetros de la solicitud
+    const numeroId = req.params.numeroId;
+
+    try{
+        // Intentamos obtener un documento de la colección Vehiculo por su id del propietario
+        const vehiculos = await Vehiculo.find({ 'propietario.numeroId' : numeroId });
+        
+        // Si no se encuentra el documento, enviamos una respuesta con el código de estado 404 y un mensaje de error
+        
+        if (vehiculos.length === 0) {
+            return res.status(404).json({ message: 'Id no relacionado a ningun vehiculo' });
+        }
+        
+        res.json(vehiculos);
+
+    } catch (err) {
+        // Si ocurre un error, enviamos una respuesta con el código de estado 500
+        res.status(500).json({ message: err.message });
+    }
+};
+
+    // Crear un nuevo vehículo
+    vehiculoCtrl.createVehiculo = async (req, res) => {
+        // Extraemos los datos del cuerpo de la solicitud
+        const { placa, propietario, modelo } = req.body;
+        // Creamos una nueva instancia del modelo Vehiculo con los datos proporcionados
+        const newVehiculo = new Vehiculo({ placa, propietario, modelo });
+        try {
+
+            //Verificamos si un vehiculos con los mismos datos ya existe
+            const existingVehiculo = await Vehiculo.findOne({ placa, propietario, modelo });
+
+            if (existingVehiculo) {
+                return res.status(400).json({ message: 'Vehiculo ya existe' });
+            }
+
+            // Intentamos guardar el nuevo documento en la base de datos
+            const savedVehiculo = await newVehiculo.save();
+            // Enviamos el documento guardado en formato JSON con el código de estado 201 (Creado)
+            res.status(201).json({ message: "Creado con exito", savedVehiculo });
+        } catch (err) {
+            // Si ocurre un error, enviamos una respuesta con el código de estado 400 y un mensaje de error
+            res.status(400).json({ message: "Error creando el aceite" });
+        }
+    };
+
+
+// Actualizar un vehículo por el id
 vehiculoCtrl.updateVehiculo = async (req, res) => {
     // Extraemos la placa de los parámetros de la solicitud
-    const placa = req.params.placa;
-    // Extraemos los datos del cuerpo de la solicitud
-    const { propietario, modelo } = req.body;
+    const {_id} = req.params;
+    const { placa, propietario, modelo} = req.body;
     try {
         // Intentamos actualizar un documento de la colección Vehiculo por su placa
-        const updatedVehiculo = await Vehiculo.findOneAndUpdate(
-            { placa },
-            { propietario, modelo },
+        const updatedVehiculo = await Vehiculo.findByIdAndUpdate(
+            _id,
+            { placa, propietario, modelo },
             { new: true } // Esta opción devuelve el documento actualizado
         );
         // Si no se encuentra el documento, enviamos una respuesta con el código de estado 404 y un mensaje de error
@@ -71,20 +117,21 @@ vehiculoCtrl.updateVehiculo = async (req, res) => {
             return res.status(404).json({ message: 'Vehículo no encontrado para actualizar' });
         }
         // Enviamos el documento actualizado en formato JSON
-        res.json(updatedVehiculo);
+        res.json({ message: "Vehiculo Actualizado con exito",updatedVehiculo});
     } catch (err) {
         // Si ocurre un error, enviamos una respuesta con el código de estado 400 y un mensaje de error
         res.status(400).json({ message: err.message });
     }
 };
 
-// Eliminar un vehículo por su placa
+// Eliminar un vehículo por su id
 vehiculoCtrl.deleteVehiculo = async (req, res) => {
-    // Extraemos la placa de los parámetros de la solicitud
-    const placa = req.params.placa;
+
+    //Extraemos el id de los parametros d
+    const {_id} = req.params;
     try {
         // Intentamos eliminar un documento de la colección Vehiculo por su placa
-        const deletedVehiculo = await Vehiculo.findOneAndDelete({ placa });
+        const deletedVehiculo = await Vehiculo.findByIdDelete({ _id });
         // Si no se encuentra el documento, enviamos una respuesta con el código de estado 404 y un mensaje de error
         if (!deletedVehiculo) {
             return res.status(404).json({ message: 'Vehículo no encontrado para eliminar' });

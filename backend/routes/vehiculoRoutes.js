@@ -5,16 +5,23 @@ const vehiculoCtrl = require("../controllers/vehiculoController");
 // Obtener todos los vehículos
 router.get("/", vehiculoCtrl.getVehiculos);
 
-// Obtener un vehículo por su Placa
+// Obtener todos los propietarios
+router.get("/propietarios", vehiculoCtrl.getPropietarios);
+
+
+// Obtener vehiculo por su placa
 router.get("/:placa", vehiculoCtrl.getVehiculoByPlaca);
+
+//Obtener vehiculos por numero id propietario
+router.get("/propietario/:numeroId", vehiculoCtrl.getVehiculosByPropietarioId);
 
 // Crear un nuevo vehículo
 router.post("/", vehiculoCtrl.createVehiculo);
 
-// Actualizar un vehículo por su Placa
-router.put("/:placa", vehiculoCtrl.updateVehiculo);
+// Actualizar vehiculo por id
+router.put("/:_id", vehiculoCtrl.updateVehiculo);
 
-// Eliminar un vehículo por su Placa
-router.delete("/:placa", vehiculoCtrl.deleteVehiculo);
+// Eliminar vehiculo por id 
+router.delete("/:_id", vehiculoCtrl.deleteVehiculo);
 
 module.exports = router;

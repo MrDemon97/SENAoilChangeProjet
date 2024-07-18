@@ -1,4 +1,4 @@
-<div class="filtro_search-container">
+<div class="search-container">
     <h2>Buscar Filtro</h2>
     <form (ngSubmit)="getFiltroByReferencia()">
         <div class="form-group">
@@ -8,14 +8,14 @@
         </div>
     </form>
 
-    <div *ngIf="filtroEncontrado" class="aceite-result">
+    <div *ngIf="filtroEncontrado" class="result">
         <h3>Filtro Encontrado:</h3>
         <p> Referencia: {{ filtroEncontrado.referencia }}</p>
         <p> Marca: {{ filtroEncontrado.marca }}</p>
         <p> Tipo: {{ filtroEncontrado.tipo }}</p>
     </div>
 
-    <div *ngIf="filtroEncontrado === undefined" class="filtro-not-found">
+    <div *ngIf="filtroEncontrado === undefined" class="not-found">
         <p>No se encontró ningún filtro con las referencia solicitada</p>
       </div>
 </div>
