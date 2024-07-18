@@ -14,7 +14,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrls: ['./filtro-create.component.css']
 })
 export class FiltroCreateComponent {
-  
   nuevoFiltro: Filtro = new Filtro();
 
   constructor(private filtroService : FiltroService) {}

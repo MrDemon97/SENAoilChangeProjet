@@ -46,7 +46,7 @@ export class FiltroListComponent {
     );
   }
 
-  actualizaFiltro(filtro: Filtro): void {
+  actualizarFiltro(filtro: Filtro): void {
     this.filtroSeleccionado = filtro;
     this.mostrarFormularioActualizar = true;
   }

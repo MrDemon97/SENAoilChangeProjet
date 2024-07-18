@@ -8,7 +8,7 @@ export class Filtro {
         _id: string = "",
         referencia: string = "",
         marca: string = "",
-        tipo: 'Aire' | 'Aceite'
+        tipo: 'Aire' | 'Aceite' = 'Aire'
     ) {
         this._id = _id;
         this.referencia = referencia;

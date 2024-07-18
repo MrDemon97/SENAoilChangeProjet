@@ -1,1 +1,28 @@
-<p>filtro-list works!</p>
+<div class="filtro-list-container">
+    <h2>Lista de Filtros</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Referencia</th>
+          <th>Marca</th>
+          <th>Tipo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let filtro of filtros">
+          <td>{{ filtro.referencia }}</td>
+          <td>{{ filtro.marca }}</td>
+          <td>{{ filtro.tipo }}</td>
+          <td>
+            <button (click)="actualizarFiltro(filtro)" class="btn btn-primary">Actualizar</button>
+            <button (click)="deleteFiltro(filtro._id)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <app-filtro-update *ngIf="mostrarFormularioActualizar"
+                       [filtro]="filtroSeleccionado"
+                       (filtroActualizado)="onFiltroActualizado()"></app-filtro-update>
+  </div>
