@@ -26,9 +26,9 @@ export class FiltroService {
       return this.http.get<Filtro>(`${this.apiUrl}/${referencia}`);
   }
 
-  // Método para actualizar un filtro por su referencia
-  updateFiltro(referencia: string, filtro: Filtro): Observable<Filtro> {
-      return this.http.put<Filtro>(`${this.apiUrl}/${referencia}`, filtro);
+  // Método para actualizar un filtro por su id
+  updateFiltro(id: string, filtro: Filtro): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, filtro);
   }
 
   // Método para eliminar un filtro por su referencia

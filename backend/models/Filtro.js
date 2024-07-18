@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 
-const filtroSchema = new mongoose.Schema({
+const filtroSchema = new Schema({
     referencia:{
         type: String,
         required: true,

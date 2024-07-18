@@ -1,0 +1,21 @@
+<div class="filtro_search-container">
+    <h2>Buscar Filtro</h2>
+    <form (ngSubmit)="getFiltroByReferencia()">
+        <div class="form-group">
+            <label for="referencia">Referencia:</label>
+            <input type="text" id="referencia" [(ngModel)]="referencia" name="referencia" required>
+            <button type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <div *ngIf="filtroEncontrado" class="aceite-result">
+        <h3>Filtro Encontrado:</h3>
+        <p> Referencia: {{ filtroEncontrado.referencia }}</p>
+        <p> Marca: {{ filtroEncontrado.marca }}</p>
+        <p> Tipo: {{ filtroEncontrado.tipo }}</p>
+    </div>
+
+    <div *ngIf="filtroEncontrado === undefined" class="filtro-not-found">
+        <p>No se encontró ningún filtro con las referencia solicitada</p>
+      </div>
+</div>

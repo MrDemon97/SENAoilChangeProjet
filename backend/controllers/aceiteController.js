@@ -74,7 +74,7 @@ aceiteCtrl.updateAceite = async (req, res) => {
 
 // Eliminar un aceite
 aceiteCtrl.deleteAceite = async (req,res) =>{
-  const _id = req.params // Usar el ID para eliminar
+  const {_id} = req.params; // Usar el ID para eliminar
   try {
     const deletedAceite = await Aceite.findByIdAndDelete(_id);
     if (!deletedAceite) {
