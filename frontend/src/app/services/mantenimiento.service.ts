@@ -1,5 +1,6 @@
+// mantenimiento.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mantenimiento } from '../models/mantenimiento.model';
 
@@ -7,32 +8,52 @@ import { Mantenimiento } from '../models/mantenimiento.model';
   providedIn: 'root'
 })
 export class MantenimientoService {
-  getFiltros(): Observable<import("../models/filtro.model").Filtro[]> {
-    throw new Error('Method not implemented.');
-  }
-  getAceites(): Observable<import("../models/aceite.model").Aceite[]> {
-    throw new Error('Method not implemented.');
-  }
-  getVehiculos(): Observable<import("../models/vehiculo.model").Vehiculo[]> {
-    throw new Error('Method not implemented.');
-  }
-  private baseUrl = 'http://localhost:5000/api/mantenimientos';
+  private apiUrl = 'http://localhost:5000/api/mantenimientos';
 
   constructor(private http: HttpClient) {}
 
-  getMantenimientos(filtros?: any): Observable<Mantenimiento[]> {
-    let params = new HttpParams();
-    if (filtros) {
-      Object.keys(filtros).forEach(key => {
-        if (filtros[key]) {
-          params = params.append(key, filtros[key]);
-        }
-      });
-    }
-    return this.http.get<Mantenimiento[]>(this.baseUrl, { params });
+  // Método para obtener todos los mantenimientos
+  getMantenimientos(): Observable<Mantenimiento[]> {
+    return this.http.get<Mantenimiento[]>(this.apiUrl);
   }
 
+  // Método para obtener un mantenimiento por su ID
+  getMantenimientoById(id: string): Observable<Mantenimiento> {
+    return this.http.get<Mantenimiento>(`${this.apiUrl}/${id}`);
+  }
+
+  // Método para crear un nuevo mantenimiento
   createMantenimiento(mantenimiento: Mantenimiento): Observable<Mantenimiento> {
-    return this.http.post<Mantenimiento>(this.baseUrl, mantenimiento);
+    return this.http.post<Mantenimiento>(this.apiUrl, mantenimiento);
+  }
+
+  // Método para eliminar un mantenimiento por su ID
+  deleteMantenimiento(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // Método para obtener mantenimientos por fecha
+  getMantenimientosByFecha(fecha: string): Observable<Mantenimiento[]> {
+    return this.http.get<Mantenimiento[]>(`${this.apiUrl}/fecha?fecha=${fecha}`);
+  }
+
+  // Método para obtener mantenimientos por ID del técnico
+  getMantenimientosByTecnicoId(tecnicoId: string): Observable<Mantenimiento[]> {
+    return this.http.get<Mantenimiento[]>(`${this.apiUrl}/tecnico?numeroId=${tecnicoId}`);
+  }
+
+  // Método para obtener mantenimientos por ID del propietario
+  getMantenimientosByPropietarioId(propietarioId: string): Observable<Mantenimiento[]> {
+    return this.http.get<Mantenimiento[]>(`${this.apiUrl}/propietario?numeroId=${propietarioId}`);
+  }
+
+  // Método para obtener mantenimientos por placa del vehículo
+  getMantenimientosByPlaca(placa: string): Observable<Mantenimiento[]> {
+    return this.http.get<Mantenimiento[]>(`${this.apiUrl}/placa?placa=${placa}`);
+  }
+
+  // Método para verificar si un mantenimiento ya existe
+  checkMantenimiento(mantenimiento: Mantenimiento): Observable<boolean> {
+    return this.http.post<boolean>(`${this.apiUrl}/verificar`, mantenimiento);
   }
 }

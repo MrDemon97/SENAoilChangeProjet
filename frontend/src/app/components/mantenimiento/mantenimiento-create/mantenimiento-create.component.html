@@ -1,42 +1,112 @@
 <form [formGroup]="mantenimientoForm" (ngSubmit)="onSubmit()">
+    <!-- Vehículo -->
     <div class="form-group">
-      <label for="placa">Placa</label>
-      <input type="text" class="form-control" id="placa" formControlName="placa">
-    </div>
-    <div class="form-group">
-      <label for="fecha">Fecha</label>
-      <input type="date" class="form-control" id="fecha" formControlName="fecha">
-    </div>
-    <div class="form-group">
-      <label for="kilometraje">Kilometraje</label>
-      <input type="number" class="form-control" id="kilometraje" formControlName="kilometraje">
-    </div>
-    <div class="form-group">
-      <label for="aceiteUtilizado">Aceite Utilizado</label>
-      <select class="form-control" id="aceiteUtilizado" formControlName="aceiteUtilizado">
-        <option *ngFor="let aceite of aceites$ | async" [value]="aceite.referencia">{{ aceite.referencia }}</option>
+      <label for="placa">Placa:</label>
+      <select id="placa" formControlName="vehiculo.placa" class="form-control">
+        <option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.placa">{{ vehiculo.placa }}</option>
       </select>
     </div>
+  
     <div class="form-group">
-      <label for="filtroAceite">Filtro de Aceite</label>
-      <select class="form-control" id="filtroAceite" formControlName="filtroAceite">
-        <option *ngFor="let filtro of filtrosAceite$ | async" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+      <label for="modelo">Modelo:</label>
+      <input type="text" id="modelo" formControlName="vehiculo.modelo" class="form-control" readonly>
+    </div>
+  
+    <div class="form-group">
+      <label for="propietarioNombre">Nombre del Propietario:</label>
+      <input type="text" id="propietarioNombre" formControlName="vehiculo.propietario.nombre" class="form-control" readonly>
+    </div>
+  
+    <div class="form-group">
+      <label for="propietarioNumeroId">Número ID del Propietario:</label>
+      <input type="text" id="propietarioNumeroId" formControlName="vehiculo.propietario.numeroId" class="form-control" readonly>
+    </div>
+  
+    <!-- Fecha -->
+    <div class="form-group">
+      <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" formControlName="fecha" class="form-control">
+    </div>
+  
+    <!-- Kilometraje -->
+    <div class="form-group">
+      <label for="kilometraje">Kilometraje:</label>
+      <input type="number" id="kilometraje" formControlName="kilometraje" class="form-control">
+    </div>
+  
+    <!-- Aceite Usado 1 -->
+    <div class="form-group">
+      <label for="aceiteUsado1Referencia">Referencia Aceite Usado 1:</label>
+      <select id="aceiteUsado1Referencia" formControlName="aceitesUsados.aceiteUsado1.referencia" class="form-control">
+        <option *ngFor="let aceite of aceites" [value]="aceite.referencia">{{ aceite.referencia }}</option>
       </select>
     </div>
+  
     <div class="form-group">
-      <label for="filtroAire">Filtro de Aire</label>
-      <select class="form-control" id="filtroAire" formControlName="filtroAire">
-        <option *ngFor="let filtro of filtrosAire$ | async" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+      <label for="aceiteUsado1Marca">Marca Aceite Usado 1:</label>
+      <input type="text" id="aceiteUsado1Marca" formControlName="aceitesUsados.aceiteUsado1.marca" class="form-control" readonly>
+    </div>
+  
+    <div class="form-group">
+      <label for="aceiteUsado1Cantidad">Cantidad Aceite Usado 1:</label>
+      <input type="number" id="aceiteUsado1Cantidad" formControlName="aceitesUsados.aceiteUsado1.cantidad" class="form-control">
+    </div>
+  
+    <!-- Aceite Usado 2 -->
+    <div class="form-group">
+      <label for="aceiteUsado2Referencia">Referencia Aceite Usado 2:</label>
+      <select id="aceiteUsado2Referencia" formControlName="aceitesUsados.aceiteUsado2.referencia" class="form-control">
+        <option *ngFor="let aceite of aceites" [value]="aceite.referencia">{{ aceite.referencia }}</option>
       </select>
     </div>
+  
     <div class="form-group">
-      <label for="tecnicoNombre">Nombre del Técnico</label>
-      <input type="text" class="form-control" id="tecnicoNombre" formControlName="tecnicoNombre">
+      <label for="aceiteUsado2Marca">Marca Aceite Usado 2:</label>
+      <input type="text" id="aceiteUsado2Marca" formControlName="aceitesUsados.aceiteUsado2.marca" class="form-control" readonly>
     </div>
+  
     <div class="form-group">
-      <label for="tecnicoNumeroId">Número de ID del Técnico</label>
-      <input type="text" class="form-control" id="tecnicoNumeroId" formControlName="tecnicoNumeroId">
+      <label for="aceiteUsado2Cantidad">Cantidad Aceite Usado 2:</label>
+      <input type="number" id="aceiteUsado2Cantidad" formControlName="aceitesUsados.aceiteUsado2.cantidad" class="form-control">
     </div>
-    <button type="submit" class="btn btn-primary">Crear Mantenimiento</button>
+  
+    <!-- Filtro de Aceite -->
+    <div class="form-group">
+      <label for="filtroAceiteReferencia">Referencia Filtro Aceite:</label>
+      <select id="filtroAceiteReferencia" formControlName="filtroAceite.referencia" class="form-control">
+        <option *ngFor="let filtro of filtros" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="filtroAceiteMarca">Marca Filtro Aceite:</label>
+      <input type="text" id="filtroAceiteMarca" formControlName="filtroAceite.marca" class="form-control" readonly>
+    </div>
+  
+    <!-- Filtro de Aire -->
+    <div class="form-group">
+      <label for="filtroAireReferencia">Referencia Filtro Aire:</label>
+      <select id="filtroAireReferencia" formControlName="filtroAire.referencia" class="form-control">
+        <option *ngFor="let filtro of filtros" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="filtroAireMarca">Marca Filtro Aire:</label>
+      <input type="text" id="filtroAireMarca" formControlName="filtroAire.marca" class="form-control" readonly>
+    </div>
+  
+    <!-- Técnico -->
+    <div class="form-group">
+      <label for="tecnicoNombre">Nombre del Técnico:</label>
+      <input type="text" id="tecnicoNombre" formControlName="tecnico.nombre" class="form-control">
+    </div>
+  
+    <div class="form-group">
+      <label for="tecnicoNumeroId">Número ID del Técnico:</label>
+      <input type="text" id="tecnicoNumeroId" formControlName="tecnico.numeroId" class="form-control">
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Crear</button>
   </form>
   

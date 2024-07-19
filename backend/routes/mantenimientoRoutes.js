@@ -12,4 +12,8 @@ router.get('/tecnico', mantenimientoCtrl.getMantenimientosByTecnicoId);
 router.get('/propietario', mantenimientoCtrl.getMantenimientosByPropietarioId);
 router.get('/placa', mantenimientoCtrl.getMantenimientosByPlaca);
 
+// Ruta para verificar si un mantenimiento ya existe se usa metodo POST
+// Pues permite hacer consultas más complejas
+router.post('/verificar', mantenimientoCtrl.checkMantenimiento);
+
 module.exports = router;
