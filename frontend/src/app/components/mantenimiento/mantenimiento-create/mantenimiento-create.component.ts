@@ -1,92 +1,79 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MantenimientoService } from '../../../services/mantenimiento.service';
-import { AceiteService } from '../../../services/aceite.service';
-import { FiltroService } from '../../../services/filtro.service';
-import { VehiculoService } from '../../../services/vehiculo.service';
-import { Mantenimiento } from '../../../models/mantenimiento.model';
+import { VehiculoService } from '../../../services/vehiculo.service'; // Servicio para obtener vehículos
+import { AceiteService } from '../../../services/aceite.service'; // Servicio para obtener aceites
+import { FiltroService } from '../../../services/filtro.service'; // Servicio para obtener filtros
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-mantenimiento-create',
   standalone: true,
+  selector: 'app-mantenimiento-create',
   templateUrl: './mantenimiento-create.component.html',
   styleUrls: ['./mantenimiento-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule] 
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class MantenimientoCreateComponent implements OnInit {
-  mantenimientoForm!: FormGroup;
+  mantenimientoForm!: FormGroup; //La propiedad "mantenimientoForm" no tiene inicializador y no está asignada de forma definitiva en el constructor.t
+  vehiculos: any[] = [];
   aceites: any[] = [];
   filtros: any[] = [];
-  vehiculos: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private mantenimientoService: MantenimientoService,
-    private aceiteService: AceiteService,
-    private filtroService: FiltroService,
-    private vehiculoService: VehiculoService
-  ) {}
+    private vehiculoService: VehiculoService,
+    private aceiteService: AceiteService, 
+    private filtroService: FiltroService
+  ) { }
 
   ngOnInit(): void {
+    this.initForm();
+    this.loadOptions();
+  }
+
+  // Inicializar el formulario
+  private initForm() {
     this.mantenimientoForm = this.fb.group({
-      vehiculo: this.fb.group({
-        placa: ['', Validators.required],
-        modelo: [{value: '', disabled: true}, Validators.required],
-        propietario: this.fb.group({
-          nombre: [{value: '', disabled: true}, Validators.required],
-          numeroId: [{value: '', disabled: true}, Validators.required]
-        })
-      }),
       fecha: ['', Validators.required],
       kilometraje: ['', Validators.required],
-      aceitesUsados: this.fb.group({
-        aceiteUsado1: this.fb.group({
-          referencia: ['', Validators.required],
-          marca: [{value: '', disabled: true}, Validators.required],
-          cantidad: ['', Validators.required]
-        }),
-        aceiteUsado2: this.fb.group({
-          referencia: ['', Validators.required],
-          marca: [{value: '', disabled: true}, Validators.required],
-          cantidad: ['', Validators.required]
-        })
+      vehiculo: ['', Validators.required],
+      aceite: this.fb.group({
+        tipo1: ['', Validators.required],
+        cantidadGalones: [0, Validators.required],
+        cantidadCuartos: [0, Validators.required]
       }),
-      filtroAceite: this.fb.group({
-        referencia: ['', Validators.required],
-        marca: [{value: '', disabled: true}, Validators.required]
-      }),
-      filtroAire: this.fb.group({
-        referencia: ['', Validators.required],
-        marca: [{value: '', disabled: true}, Validators.required]
+      filtro: this.fb.group({
+        aire: ['', Validators.required],
+        aceite: ['', Validators.required]
       }),
       tecnico: this.fb.group({
-        nombre: ['', Validators.required],
-        numeroId: ['', Validators.required]
+        numeroId: ['', Validators.required],
+        nombre: ['', Validators.required]
       })
     });
-
-    this.loadData();
   }
 
-  loadData(): void {
+  // Cargar opciones para los desplegables
+  private loadOptions() {
+    this.vehiculoService.getVehiculos().subscribe(data => this.vehiculos = data);
     this.aceiteService.getAceites().subscribe(data => this.aceites = data);
     this.filtroService.getFiltros().subscribe(data => this.filtros = data);
-    this.vehiculoService.getVehiculos().subscribe(data => this.vehiculos = data);
   }
 
-  onSubmit(): void {
-    const mantenimiento: Mantenimiento = this.mantenimientoForm.value;
-
-    this.mantenimientoService.checkMantenimiento(mantenimiento).subscribe(exists => {
-      if (exists) {
-        alert('Ya existe un mantenimiento con estos datos.');
-      } else {
-        this.mantenimientoService.createMantenimiento(mantenimiento).subscribe(() => {
-          alert('Mantenimiento creado exitosamente.');
-          this.mantenimientoForm.reset();
-        });
-      }
-    });
+  // Enviar el formulario
+  onSubmit() {
+    if (this.mantenimientoForm.valid) {
+      this.mantenimientoService.createMantenimiento(this.mantenimientoForm.value).subscribe(
+        response => {
+          console.log('Mantenimiento creado', response);
+          // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
+        },
+        error => {
+          console.error('Error al crear mantenimiento', error);
+          // Aquí puedes mostrar un mensaje de error
+        }
+      );
+    }
   }
 }

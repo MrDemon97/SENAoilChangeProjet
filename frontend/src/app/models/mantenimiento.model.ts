@@ -1,40 +1,43 @@
-import { Aceite } from './aceite.model';
-import { Filtro } from './filtro.model';
-import { Vehiculo } from './vehiculo.model';
+// src/app/models/mantenimiento.model.ts
 
 export class Mantenimiento {
-  _id?: string; // Campo opcional para ID
-  vehiculo: Vehiculo;
+  _id?: string; // Identificador único del mantenimiento (opcional si se crea después)
   fecha: Date;
   kilometraje: number;
-  aceitesUsados: {
-    aceiteUsado1: Aceite;
-    aceiteUsado2: Aceite;
+  vehiculo: string; // ID del vehículo (referencia al modelo Vehiculo)
+  aceite: {
+    tipo1: string; // ID del primer tipo de aceite (referencia al modelo Aceite)
+    cantidadGalones: number; // Cantidad total en galones
+    cantidadCuartos: number; // Cantidad total en cuartos
   };
-  filtroAceite: Filtro;
-  filtroAire: Filtro;
+  filtro: {
+      aire: string; // ID del filtro de aire (referencia al modelo Filtro)
+      aceite: string; // ID del filtro de aceite (referencia al modelo Filtro)
+  };
   tecnico: {
-    nombre: string;
-    numeroId: string;
+      numeroId: string;
+      nombre: string;
   };
 
   constructor(
-    _id?: string,
-    vehiculo: Vehiculo = new Vehiculo(),
-    fecha: Date = new Date(),
-    kilometraje: number = 0,
-    aceitesUsados: { aceiteUsado1: Aceite; aceiteUsado2: Aceite } = { aceiteUsado1: new Aceite(), aceiteUsado2: new Aceite() },
-    filtroAceite: Filtro = new Filtro(),
-    filtroAire: Filtro = new Filtro(),
-    tecnico: { nombre: string; numeroId: string } = { nombre: '', numeroId: '' }
+      _id: string = "",
+      fecha: Date = new Date(),
+      kilometraje: number = 0,
+      vehiculo: string = "",
+      aceite: { 
+        tipo1: string; 
+        cantidadGalones: number; 
+        cantidadCuartos: number; 
+      } = { tipo1: "", cantidadGalones: 0, cantidadCuartos: 0 },
+      filtro: { aire: string; aceite: string } = { aire: "", aceite: "" },
+      tecnico: { numeroId: string; nombre: string } = { numeroId: "", nombre: "" }
   ) {
-    this._id = _id;
-    this.vehiculo = vehiculo;
-    this.fecha = fecha;
-    this.kilometraje = kilometraje;
-    this.aceitesUsados = aceitesUsados;
-    this.filtroAceite = filtroAceite;
-    this.filtroAire = filtroAire;
-    this.tecnico = tecnico;
+      this._id = _id;
+      this.fecha = fecha;
+      this.kilometraje = kilometraje;
+      this.vehiculo = vehiculo;
+      this.aceite = aceite;
+      this.filtro = filtro;
+      this.tecnico = tecnico;
   }
 }

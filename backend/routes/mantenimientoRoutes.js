@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mantenimientoCtrl = require('../controllers/mantenimientoCtrl');
+const mantenimientoCtrl = require('../controllers/mantenimientoController');
 
 // Obtener todos los datos para llenar el formulario de mantenimiento
 router.get('/datos', mantenimientoCtrl.obtenerDatosFormulario);

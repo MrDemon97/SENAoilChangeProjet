@@ -1,7 +1,7 @@
 const Mantenimiento = require('../models/Mantenimiento');
-const aceiteCtrl = require('../services/aceiteCtrl'); // Ruta al servicio de aceites
-const filtroCtrl = require('../services/filtroCtrl'); // Ruta al servicio de filtros
-const vehiculoCtrl = require('../services/vehiculoCtrl'); // Ruta al servicio de vehículos
+const aceiteCtrl = require('../controllers/aceiteController'); // Ruta al servicio de aceites
+const filtroCtrl = require('../controllers/filtroController'); // Ruta al servicio de filtros
+const vehiculoCtrl = require('../controllers/vehiculoController'); // Ruta al servicio de vehículos
 
 const mantenimientoCtrl = {};
 
