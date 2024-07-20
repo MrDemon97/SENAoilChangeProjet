@@ -131,7 +131,7 @@ vehiculoCtrl.deleteVehiculo = async (req, res) => {
     const {_id} = req.params;
     try {
         // Intentamos eliminar un documento de la colección Vehiculo por su placa
-        const deletedVehiculo = await Vehiculo.findByIdAndDelete({ _id });
+        const deletedVehiculo = await Vehiculo.findByIdDelete({ _id });
         // Si no se encuentra el documento, enviamos una respuesta con el código de estado 404 y un mensaje de error
         if (!deletedVehiculo) {
             return res.status(404).json({ message: 'Vehículo no encontrado para eliminar' });

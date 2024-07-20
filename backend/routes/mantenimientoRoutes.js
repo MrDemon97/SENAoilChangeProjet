@@ -1,19 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const mantenimientoCtrl = require('../controllers/mantenimientoController');
+const mantenimientoCtrl = require('../controllers/mantenimientoCtrl');
 
-// Rutas para Mantenimientos
-router.get('/', mantenimientoCtrl.getMantenimientos);
-router.get('/:_id', mantenimientoCtrl.getMantenimientoById);
-router.post('/', mantenimientoCtrl.createMantenimiento);
-router.delete('/:_id', mantenimientoCtrl.deleteMantenimiento);
-router.get('/fecha', mantenimientoCtrl.getMantenimientosByFecha);
-router.get('/tecnico', mantenimientoCtrl.getMantenimientosByTecnicoId);
-router.get('/propietario', mantenimientoCtrl.getMantenimientosByPropietarioId);
-router.get('/placa', mantenimientoCtrl.getMantenimientosByPlaca);
+// Obtener todos los datos para llenar el formulario de mantenimiento
+router.get('/datos', mantenimientoCtrl.obtenerDatosFormulario);
 
-// Ruta para verificar si un mantenimiento ya existe se usa metodo POST
-// Pues permite hacer consultas más complejas
-router.post('/verificar', mantenimientoCtrl.checkMantenimiento);
+// Crear un nuevo registro de mantenimiento
+router.post('/', mantenimientoCtrl.crearMantenimiento);
+
+// Listar todos los mantenimientos
+router.get('/', mantenimientoCtrl.listarMantenimientos);
+
+// Listar mantenimientos por rango de fechas
+router.get('/rango-fechas', mantenimientoCtrl.listarMantenimientosPorRangoFecha);
+
+// Listar mantenimientos por fecha específica
+router.get('/fecha', mantenimientoCtrl.listarMantenimientosPorFecha);
+
+// Listar mantenimientos por número ID del técnico
+router.get('/tecnico', mantenimientoCtrl.listarMantenimientosPorNumeroIdTecnico);
+
+// Listar mantenimientos por placa del vehículo
+router.get('/vehiculo', mantenimientoCtrl.listarMantenimientosPorPlacaVehiculo);
+
+// Listar mantenimientos por ID del propietario
+router.get('/propietario', mantenimientoCtrl.listarMantenimientosPorIdPropietario);
+
+// Eliminar un mantenimiento por ID
+router.delete('/:id', mantenimientoCtrl.eliminarMantenimiento);
 
 module.exports = router;

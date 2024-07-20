@@ -1,47 +1,50 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const mantenimientoSchema = new mongoose.Schema({
-  vehiculo: {
-    placa: { type: String, required: true },
-    modelo: { type: String, required: true },
-    propietario: {
-      nombre: { type: String, required: true },
-      numeroId: { type: String, required: true },
+const mantenimientoSchema = new Schema({
+    fecha: {
+        type: Date,
+        required: true
     },
-  },
-
-  fecha: { type: Date, default: Date.now, required: true },
-
-  kilometraje: { type: Number, required: true },
-
-  aceitesUsados: {
-    aceiteUsado1: {
-      referencia: { type: String, required: true },
-      marca: { type: String, required: true },
-      cantidad: { type: Number, required: true },
+    kilometraje: {
+        type: Number,
+        required: true
     },
-
-    aceiteUsado2: {
-      referencia: { type: String, required: true },
-      marca: { type: String, required: true },
-      cantidad: { type: Number, required: true },
+    vehiculo: {
+        type: Schema.Types.ObjectId,
+        ref: 'Vehiculo',
+        required: true
     },
-  },
-
-  filtroAceite: {
-    referencia: { type: String, required: true },
-    marca: { type: String, required: true },
-  },
-
-  filtroAire: {
-    referencia: { type: String, required: true },
-    marca: { type: String, required: true },
-  },
-
-  tecnico: {
-    nombre: { type: String, required: true },
-    numeroId: { type: String, required: true },
-  },
+    aceite: {
+        tipo1: {
+            type: Schema.Types.ObjectId,
+            ref: 'Aceite'
+        },
+        tipo2: {
+            type: Schema.Types.ObjectId,
+            ref: 'Aceite'
+        }
+    },
+    filtro: {
+        aire: {
+            type: Schema.Types.ObjectId,
+            ref: 'Filtro'
+        },
+        aceite: {
+            type: Schema.Types.ObjectId,
+            ref: 'Filtro'
+        }
+    },
+    tecnico: {
+        numeroId: {
+            type: String,
+            required: true
+        },
+        nombre: {
+            type: String,
+            required: true
+        }
+    }
 });
 
-module.exports = mongoose.model("Mantenimiento", mantenimientoSchema);
+module.exports = mongoose.model('Mantenimiento', mantenimientoSchema);
