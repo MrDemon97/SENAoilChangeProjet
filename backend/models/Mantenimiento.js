@@ -11,28 +11,47 @@ const mantenimientoSchema = new Schema({
         required: true
     },
     vehiculo: {
-        type: Schema.Types.ObjectId,
-        ref: 'Vehiculo',
+        type: {
+            _id: Schema.Types.ObjectId,
+            placa: String,
+            propietario: {
+                nombre: String,
+                numeroId: String
+            },
+            modelo: {
+                ano: Number,
+                marca: String,
+                serie: String
+            }
+        },
         required: true
     },
     aceite: {
         tipo1: {
-            type: Schema.Types.ObjectId,
-            ref: 'Aceite'
+            referencia: String,
+            marca: String,
+            presentacion: String,
+            tipo: String,
+            cantidad: Number
         },
         tipo2: {
-            type: Schema.Types.ObjectId,
-            ref: 'Aceite'
+            referencia: String,
+            marca: String,
+            presentacion: String,
+            tipo: String,
+            cantidad: Number
         }
     },
     filtro: {
         aire: {
-            type: Schema.Types.ObjectId,
-            ref: 'Filtro'
+            referencia: String,
+            marca: String,
+            tipo: String
         },
         aceite: {
-            type: Schema.Types.ObjectId,
-            ref: 'Filtro'
+            referencia: String,
+            marca: String,
+            tipo: String
         }
     },
     tecnico: {
