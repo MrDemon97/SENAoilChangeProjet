@@ -6,14 +6,13 @@ import { AceiteService } from '../../../services/aceite.service';
 import { FiltroService } from '../../../services/filtro.service';
 import { CommonModule } from '@angular/common';
 import { debounceTime } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, of } from 'rxjs';
 
 // Definir constantes para cadenas mágicas
-const AIRE = 'aire';
+/* const AIRE = 'aire';
 const ACEITE = 'aceite';
 const TIPO1 = 'tipo1';
-const TIPO2 = 'tipo2';
+const TIPO2 = 'tipo2'; */
 
 @Component({
   standalone: true,
@@ -66,11 +65,11 @@ export class MantenimientoCreateComponent implements OnInit {
           cantidad: [0, Validators.required] // Campo para la cantidad del aceite tipo 1
         }),
         tipo2: this.fb.group({
-          referencia: ['', Validators.required], // Campo para la referencia del aceite tipo 2
+          referencia: [''], // Campo para la referencia del aceite tipo 2
           marca: [''], // Campo para la marca del aceite tipo 2, solo lectura
           presentacion: [''], // Campo para la presentación del aceite tipo 2, solo lectura
           tipo: [''], // Campo para el tipo del aceite tipo 2, solo lectura
-          cantidad: [0, Validators.required] // Campo para la cantidad del aceite tipo 2
+          cantidad: [0] // Campo para la cantidad del aceite tipo 2
         })
       }),
       filtro: this.fb.group({
@@ -131,6 +130,8 @@ export class MantenimientoCreateComponent implements OnInit {
           }
         }
       }, { emitEvent: false });
+    } else {
+      console.error('Vehículo no encontrado para la placa:', placa);
     }
   }
 
@@ -146,6 +147,8 @@ export class MantenimientoCreateComponent implements OnInit {
           }
         }
       }, { emitEvent: false });
+    } else {
+      console.error('Aceite tipo 1 no encontrado para la referencia:', referencia);
     }
   }
 
@@ -161,11 +164,13 @@ export class MantenimientoCreateComponent implements OnInit {
           }
         }
       }, { emitEvent: false });
+    } else {
+      console.error('Aceite tipo 2 no encontrado para la referencia:', referencia);
     }
   }
 
   private autoCompleteFiltroAire(referencia: string) {
-    const filtro = this.filtros.find(f => f.referencia === referencia && f.tipo === AIRE);
+    const filtro = this.filtros.find(f => f.referencia === referencia);
     if (filtro) {
       this.mantenimientoForm.patchValue({
         filtro: {
@@ -175,11 +180,22 @@ export class MantenimientoCreateComponent implements OnInit {
           }
         }
       }, { emitEvent: false });
+    } else {
+      // Limpiar los campos si no se encuentra el filtro
+      this.mantenimientoForm.patchValue({
+        filtro: {
+          aire: {
+            marca: '',
+            tipo: ''
+          }
+        }
+      }, { emitEvent: false });
+      console.error('Filtro aire no encontrado para la referencia:', referencia);
     }
   }
 
   private autoCompleteFiltroAceite(referencia: string) {
-    const filtro = this.filtros.find(f => f.referencia === referencia && f.tipo === ACEITE);
+    const filtro = this.filtros.find(f => f.referencia === referencia);
     if (filtro) {
       this.mantenimientoForm.patchValue({
         filtro: {
@@ -189,6 +205,17 @@ export class MantenimientoCreateComponent implements OnInit {
           }
         }
       }, { emitEvent: false });
+    } else {
+      // Limpiar los campos si no se encuentra el filtro
+      this.mantenimientoForm.patchValue({
+        filtro: {
+          aceite: {
+            marca: '',
+            tipo: ''
+          }
+        }
+      }, { emitEvent: false });
+      console.error('Filtro aceite no encontrado para la referencia:', referencia);
     }
   }
 
@@ -221,13 +248,13 @@ export class MantenimientoCreateComponent implements OnInit {
       this.mantenimientoService.createMantenimiento(this.mantenimientoForm.value)
         .pipe(catchError(error => {
           console.error('Error al crear mantenimiento', error);
-          alert('Ha ocurrido un error creando el mantenimiento');
+          alert('Ha ocurrido un error al crear mantenimiento');
           return of(null);
         }))
         .subscribe(response => {
           if (response) {
+            alert('Se ha creado correctamente');
             console.log('Mantenimiento creado', response);
-            alert('Hemos creado con éxito el mantenimiento');
           }
         });
     }
