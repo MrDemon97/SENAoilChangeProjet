@@ -1,10 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MantenimientoService } from '../../../services/mantenimiento.service';
-import { VehiculoService } from '../../../services/vehiculo.service'; // Servicio para obtener vehículos
-import { AceiteService } from '../../../services/aceite.service'; // Servicio para obtener aceites
-import { FiltroService } from '../../../services/filtro.service'; // Servicio para obtener filtros
+import { VehiculoService } from '../../../services/vehiculo.service';
+import { AceiteService } from '../../../services/aceite.service';
+import { FiltroService } from '../../../services/filtro.service';
 import { CommonModule } from '@angular/common';
+import { debounceTime } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+// Definir constantes para cadenas mágicas
+const AIRE = 'aire';
+const ACEITE = 'aceite';
+const TIPO1 = 'tipo1';
+const TIPO2 = 'tipo2';
 
 @Component({
   standalone: true,
@@ -14,7 +23,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, ReactiveFormsModule]
 })
 export class MantenimientoCreateComponent implements OnInit {
-  mantenimientoForm!: FormGroup; //La propiedad "mantenimientoForm" no tiene inicializador y no está asignada de forma definitiva en el constructor.t
+  mantenimientoForm: FormGroup; // Inicializado en el constructor
   vehiculos: any[] = [];
   aceites: any[] = [];
   filtros: any[] = [];
@@ -23,57 +32,204 @@ export class MantenimientoCreateComponent implements OnInit {
     private fb: FormBuilder,
     private mantenimientoService: MantenimientoService,
     private vehiculoService: VehiculoService,
-    private aceiteService: AceiteService, 
+    private aceiteService: AceiteService,
     private filtroService: FiltroService
-  ) { }
+  ) {
+    this.mantenimientoForm = this.fb.group({}); // Inicialización en el constructor
+  }
 
   ngOnInit(): void {
     this.initForm();
     this.loadOptions();
   }
 
-  // Inicializar el formulario
   private initForm() {
     this.mantenimientoForm = this.fb.group({
-      fecha: ['', Validators.required],
-      kilometraje: ['', Validators.required],
-      vehiculo: ['', Validators.required],
+      fecha: ['', Validators.required], // Campo para la fecha del mantenimiento
+      kilometraje: ['', Validators.required], // Campo para el kilometraje del mantenimiento
+      vehiculo: this.fb.group({
+        placa: ['', Validators.required], // Campo para la placa del vehículo
+        marca: [''], // Campo para la marca del vehículo, solo lectura
+        modelo: [''], // Campo para el modelo del vehículo, solo lectura
+        anio: [''], // Campo para el año del vehículo, solo lectura
+        propietario: this.fb.group({
+          nombre: [''], // Campo para el nombre del propietario, solo lectura
+          numeroId: [''] // Campo para el número de ID del propietario, solo lectura
+        })
+      }),
       aceite: this.fb.group({
-        tipo1: ['', Validators.required],
-        cantidadGalones: [0, Validators.required],
-        cantidadCuartos: [0, Validators.required]
+        tipo1: this.fb.group({
+          referencia: ['', Validators.required], // Campo para la referencia del aceite tipo 1
+          marca: [''], // Campo para la marca del aceite tipo 1, solo lectura
+          presentacion: [''], // Campo para la presentación del aceite tipo 1, solo lectura
+          tipo: [''], // Campo para el tipo del aceite tipo 1, solo lectura
+          cantidad: [0, Validators.required] // Campo para la cantidad del aceite tipo 1
+        }),
+        tipo2: this.fb.group({
+          referencia: ['', Validators.required], // Campo para la referencia del aceite tipo 2
+          marca: [''], // Campo para la marca del aceite tipo 2, solo lectura
+          presentacion: [''], // Campo para la presentación del aceite tipo 2, solo lectura
+          tipo: [''], // Campo para el tipo del aceite tipo 2, solo lectura
+          cantidad: [0, Validators.required] // Campo para la cantidad del aceite tipo 2
+        })
       }),
       filtro: this.fb.group({
-        aire: ['', Validators.required],
-        aceite: ['', Validators.required]
+        aire: this.fb.group({
+          referencia: ['', Validators.required], // Campo para la referencia del filtro de aire
+          marca: [''], // Campo para la marca del filtro de aire, solo lectura
+          tipo: [''] // Campo para el tipo del filtro de aire, solo lectura
+        }),
+        aceite: this.fb.group({
+          referencia: ['', Validators.required], // Campo para la referencia del filtro de aceite
+          marca: [''], // Campo para la marca del filtro de aceite, solo lectura
+          tipo: [''] // Campo para el tipo del filtro de aceite, solo lectura
+        })
       }),
       tecnico: this.fb.group({
-        numeroId: ['', Validators.required],
-        nombre: ['', Validators.required]
+        numeroId: ['', Validators.required], // Campo para el número de ID del técnico
+        nombre: ['', Validators.required] // Campo para el nombre del técnico
       })
     });
+
+    this.setupAutoComplete();
   }
 
-  // Cargar opciones para los desplegables
+  private setupAutoComplete() {
+    // Configurar autocompletado para los campos del formulario
+    this.mantenimientoForm.get('vehiculo.placa')?.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(placa => this.autoCompleteVehiculo(placa));
+
+    this.mantenimientoForm.get('aceite.tipo1.referencia')?.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(referencia => this.autoCompleteAceiteTipo1(referencia));
+
+    this.mantenimientoForm.get('aceite.tipo2.referencia')?.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(referencia => this.autoCompleteAceiteTipo2(referencia));
+
+    this.mantenimientoForm.get('filtro.aire.referencia')?.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(referencia => this.autoCompleteFiltroAire(referencia));
+
+    this.mantenimientoForm.get('filtro.aceite.referencia')?.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(referencia => this.autoCompleteFiltroAceite(referencia));
+  }
+
+  private autoCompleteVehiculo(placa: string) {
+    const vehiculo = this.vehiculos.find(v => v.placa === placa);
+    if (vehiculo) {
+      this.mantenimientoForm.patchValue({
+        vehiculo: {
+          marca: vehiculo.modelo.marca,
+          modelo: vehiculo.modelo.serie,
+          anio: vehiculo.modelo.ano,
+          propietario: {
+            nombre: vehiculo.propietario.nombre,
+            numeroId: vehiculo.propietario.numeroId
+          }
+        }
+      }, { emitEvent: false });
+    }
+  }
+
+  private autoCompleteAceiteTipo1(referencia: string) {
+    const aceite = this.aceites.find(a => a.referencia === referencia);
+    if (aceite) {
+      this.mantenimientoForm.patchValue({
+        aceite: {
+          tipo1: {
+            marca: aceite.marca,
+            presentacion: aceite.presentacion,
+            tipo: aceite.tipo
+          }
+        }
+      }, { emitEvent: false });
+    }
+  }
+
+  private autoCompleteAceiteTipo2(referencia: string) {
+    const aceite = this.aceites.find(a => a.referencia === referencia);
+    if (aceite) {
+      this.mantenimientoForm.patchValue({
+        aceite: {
+          tipo2: {
+            marca: aceite.marca,
+            presentacion: aceite.presentacion,
+            tipo: aceite.tipo
+          }
+        }
+      }, { emitEvent: false });
+    }
+  }
+
+  private autoCompleteFiltroAire(referencia: string) {
+    const filtro = this.filtros.find(f => f.referencia === referencia && f.tipo === AIRE);
+    if (filtro) {
+      this.mantenimientoForm.patchValue({
+        filtro: {
+          aire: {
+            marca: filtro.marca,
+            tipo: filtro.tipo
+          }
+        }
+      }, { emitEvent: false });
+    }
+  }
+
+  private autoCompleteFiltroAceite(referencia: string) {
+    const filtro = this.filtros.find(f => f.referencia === referencia && f.tipo === ACEITE);
+    if (filtro) {
+      this.mantenimientoForm.patchValue({
+        filtro: {
+          aceite: {
+            marca: filtro.marca,
+            tipo: filtro.tipo
+          }
+        }
+      }, { emitEvent: false });
+    }
+  }
+
   private loadOptions() {
-    this.vehiculoService.getVehiculos().subscribe(data => this.vehiculos = data);
-    this.aceiteService.getAceites().subscribe(data => this.aceites = data);
-    this.filtroService.getFiltros().subscribe(data => this.filtros = data);
+    // Cargar las opciones para vehículos, aceites y filtros
+    this.vehiculoService.getVehiculos()
+      .pipe(catchError(error => {
+        console.error('Error al cargar vehículos', error);
+        return of([]);
+      }))
+      .subscribe(data => this.vehiculos = data);
+
+    this.aceiteService.getAceites()
+      .pipe(catchError(error => {
+        console.error('Error al cargar aceites', error);
+        return of([]);
+      }))
+      .subscribe(data => this.aceites = data);
+
+    this.filtroService.getFiltros()
+      .pipe(catchError(error => {
+        console.error('Error al cargar filtros', error);
+        return of([]);
+      }))
+      .subscribe(data => this.filtros = data);
   }
 
-  // Enviar el formulario
   onSubmit() {
     if (this.mantenimientoForm.valid) {
-      this.mantenimientoService.createMantenimiento(this.mantenimientoForm.value).subscribe(
-        response => {
-          console.log('Mantenimiento creado', response);
-          // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
-        },
-        error => {
+      this.mantenimientoService.createMantenimiento(this.mantenimientoForm.value)
+        .pipe(catchError(error => {
           console.error('Error al crear mantenimiento', error);
-          // Aquí puedes mostrar un mensaje de error
-        }
-      );
+          alert('Ha ocurrido un error creando el mantenimiento');
+          return of(null);
+        }))
+        .subscribe(response => {
+          if (response) {
+            console.log('Mantenimiento creado', response);
+            alert('Hemos creado con éxito el mantenimiento');
+          }
+        });
     }
   }
 }

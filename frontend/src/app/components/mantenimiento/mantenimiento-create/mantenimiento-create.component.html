@@ -1,53 +1,132 @@
-<form [formGroup]="mantenimientoForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="fecha">Fecha</label>
-    <input id="fecha" formControlName="fecha" type="date" />
-  </div>
+<div class="container">
+  <form [formGroup]="mantenimientoForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="fecha">Fecha</label>
+      <input id="fecha" formControlName="fecha" type="date" class="form-control" />
+    </div>
 
-  <div>
-    <label for="kilometraje">Kilometraje</label>
-    <input id="kilometraje" formControlName="kilometraje" type="number" />
-  </div>
+    <div class="form-group">
+      <label for="kilometraje">Kilometraje</label>
+      <input id="kilometraje" formControlName="kilometraje" type="number" class="form-control" />
+    </div>
 
-  <div>
-    <label for="vehiculo">Vehículo</label>
-    <select id="vehiculo" formControlName="vehiculo">
-      <option *ngFor="let vehiculo of vehiculos" [value]="vehiculo._id">{{ vehiculo.placa }}</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label for="vehiculo">Vehículo</label>
+      <div formGroupName="vehiculo">
+        <label for="placa">Placa</label>
+        <select id="placa" formControlName="placa" class="form-control">
+          <option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.placa">{{ vehiculo.placa }}</option>
+        </select>
 
-  <div formGroupName="aceite">
-    <label for="tipo1">Tipo de Aceite</label>
-    <select id="tipo1" formControlName="tipo1">
-      <option *ngFor="let aceite of aceites" [value]="aceite._id">{{ aceite.referencia }}</option>
-    </select>
+        <label for="marca">Marca</label>
+        <input id="marca" formControlName="marca" type="text" class="form-control" [readonly]="true"/>
 
-    <label for="cantidadGalones">Cantidad en Galones</label>
-    <input id="cantidadGalones" formControlName="cantidadGalones" type="number" />
+        <label for="modelo">Modelo</label>
+        <input id="modelo" formControlName="modelo" type="text" class="form-control" [readonly]="true"/>
 
-    <label for="cantidadCuartos">Cantidad en Cuartos</label>
-    <input id="cantidadCuartos" formControlName="cantidadCuartos" type="number" />
-  </div>
+        <label for="anio">Año</label>
+        <input id="anio" formControlName="anio" type="text" class="form-control" [readonly]="true"/>
 
-  <div formGroupName="filtro">
-    <label for="aire">Filtro de Aire</label>
-    <select id="aire" formControlName="aire">
-      <option *ngFor="let filtro of filtros" [value]="filtro._id">{{ filtro.referencia }}</option>
-    </select>
+        <!-- Sección añadida para el propietario -->
+        <div formGroupName="propietario">
+          <label for="nombrePropietario">Nombre del Propietario</label>
+          <input id="nombrePropietario" formControlName="nombre" type="text" class="form-control" [readonly]="true"/>
 
-    <label for="aceite">Filtro de Aceite</label>
-    <select id="aceite" formControlName="aceite">
-      <option *ngFor="let filtro of filtros" [value]="filtro._id">{{ filtro.referencia }}</option>
-    </select>
-  </div>
+          <label for="numeroIdPropietario">Número de ID del Propietario</label>
+          <input id="numeroIdPropietario" formControlName="numeroId" type="text" class="form-control" [readonly]="true"/>
+        </div>
+      </div>
+    </div>
 
-  <div formGroupName="tecnico">
-    <label for="numeroId">Número ID del Técnico</label>
-    <input id="numeroId" formControlName="numeroId" type="text" />
+    <div class="form-group">
+      <label for="aceite">Aceite</label>
+      <div formGroupName="aceite">
+        <div formGroupName="tipo1">
+          <h4>Aceite Tipo 1</h4>
+          <label for="refTipo1">Referencia</label>
+          <select id="refTipo1" formControlName="referencia" class="form-control">
+            <option *ngFor="let aceite of aceites" [value]="aceite.referencia">{{ aceite.referencia }}</option>
+          </select>
 
-    <label for="nombre">Nombre del Técnico</label>
-    <input id="nombre" formControlName="nombre" type="text" />
-  </div>
+          <label for="marcaTipo1">Marca</label>
+          <input id="marcaTipo1" formControlName="marca" type="text" class="form-control" [readonly]="true"/>
 
-  <button type="submit">Crear Mantenimiento</button>
-</form>
+          <label for="presentacionTipo1">Presentación</label>
+          <input id="presentacionTipo1" formControlName="presentacion" type="text" class="form-control" [readonly]="true"/>
+
+          <label for="tipoTipo1">Tipo</label>
+          <input id="tipoTipo1" formControlName="tipo" type="text" class="form-control" [readonly]="true"/>
+
+          <label for="cantidadTipo1">Cantidad</label>
+          <input id="cantidadTipo1" formControlName="cantidad" type="number" class="form-control" />
+        </div>
+
+        <div formGroupName="tipo2">
+          <h4>Aceite Tipo 2</h4>
+          <label for="refTipo2">Referencia</label>
+          <select id="refTipo2" formControlName="referencia" class="form-control">
+            <option *ngFor="let aceite of aceites" [value]="aceite.referencia">{{ aceite.referencia }}</option>
+          </select>
+
+          <label for="marcaTipo2">Marca</label>
+          <input id="marcaTipo2" formControlName="marca" type="text" class="form-control" [readonly]="true"/>
+
+          <label for="presentacionTipo2">Presentación</label>
+          <input id="presentacionTipo2" formControlName="presentacion" type="text" class="form-control" [readonly]="true"/>
+
+          <label for="tipoTipo2">Tipo</label>
+          <input id="tipoTipo2" formControlName="tipo" type="text" class="form-control" [readonly]="true"/>
+
+          <label for="cantidadTipo2">Cantidad</label>
+          <input id="cantidadTipo2" formControlName="cantidad" type="number" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="filtro">Filtro</label>
+      <div formGroupName="filtro">
+        <div formGroupName="aire">
+          <h4>Filtro Aire</h4>
+          <label for="refAire">Referencia</label>
+          <select id="refAire" formControlName="referencia" class="form-control">
+            <option *ngFor="let filtro of filtros" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+          </select>
+
+          <label for="marcaAire">Marca</label>
+          <input id="marcaAire" formControlName="marca" type="text" class="form-control" [readonly]="true"/>
+
+          <label for="tipoAire">Tipo</label>
+          <input id="tipoAire" formControlName="tipo" type="text" class="form-control" [readonly]="true"/>
+        </div>
+
+        <div formGroupName="aceite">
+          <h4>Filtro Aceite</h4>
+          <label for="refAceite">Referencia</label>
+          <select id="refAceite" formControlName="referencia" class="form-control">
+            <option *ngFor="let filtro of filtros" [value]="filtro.referencia">{{ filtro.referencia }}</option>
+          </select>
+
+          <label for="marcaAceite">Marca</label>
+          <input id="marcaAceite" formControlName="marca" type="text" class="form-control" [readonly]="true"/>
+
+          <label for="tipoAceite">Tipo</label>
+          <input id="tipoAceite" formControlName="tipo" type="text" class="form-control" [readonly]="true"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="tecnico">Técnico</label>
+      <div formGroupName="tecnico">
+        <label for="numeroId">Número de ID</label>
+        <input id="numeroId" formControlName="numeroId" type="text" class="form-control" />
+
+        <label for="nombre">Nombre</label>
+        <input id="nombre" formControlName="nombre" type="text" class="form-control" />
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="mantenimientoForm.invalid">Guardar</button>
+  </form>
+</div>
